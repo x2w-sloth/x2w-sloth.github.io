@@ -6,27 +6,47 @@
     <description>Recent content on SLOTH</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-tw</language>
-    <lastBuildDate>Thu, 20 May 2021 09:32:56 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 25 May 2021 17:23:15 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AIS3 2021 Pre-Exam Writeup</title>
+      <link>/posts/ais3_2021_pre_exam_writeup/</link>
+      <pubDate>Tue, 25 May 2021 17:23:15 +0800</pubDate>
+      
+      <guid>/posts/ais3_2021_pre_exam_writeup/</guid>
+      <description>雖然只有解出每個領域的簡單題目
+還是厚著臉皮寫一下Writeup好了
+反正抽查也被抽中了Q_Q
+ REVERSE    Piano    題目是一個.NET的exe檔。
+只要是.NET一律丟進dnSpy反編譯。
+ 🐰Peekora🥒    題目是一個Python Pickle檔：flag_checker.pkl
+可以用 python -m pickle flag_checker.pkl 執行它
+並且如名字所示, 成功輸入flag就會print(&amp;ldquo;Correct!&amp;quot;)
+輸入錯誤的話會直接exit, 不讓你用pickle把它load完。
+只能乖乖做靜態分析了
+python -m pickletools -a flag_checker.pkl
+0: c GLOBAL &amp;#39;__builtin__ input&amp;#39; Push a global object (module.attr) on the stack. 19: ( MARK Push markobject onto the stack. 20: S STRING &amp;#39;FLAG: &amp;#39; Push a Python string object. 30: t TUPLE (MARK at 19) Build a tuple out of the topmost stack slice, after markobject.</description>
+    </item>
+    
     <item>
       <title>反正就開始寫Blog了</title>
-      <link>/posts/post00/</link>
+      <link>/posts/hello_world/</link>
       <pubDate>Thu, 20 May 2021 09:32:56 +0800</pubDate>
       
-      <guid>/posts/post00/</guid>
-      <description>渾渾噩噩、度年如日 每天光是起床都覺得好累，莫名其妙活了十九年卻一年比一年不知道自己再幹麻，但是睡太多又會有罪惡感，不知道從什麼時候開始已經抓不到時間流逝的感覺了。
+      <guid>/posts/hello_world/</guid>
+      <description>渾渾噩噩、度年如日    每天光是起床都覺得好累，莫名其妙活了十九年卻一年比一年不知道自己再幹麻，但是睡太多又會有罪惡感，不知道從什麼時候開始已經抓不到時間流逝的感覺了。
 如果一個學期或一個學年感覺過得那麼快卻沒有鮮明的回憶的話，應該是我的生活方式出了什麼問題吧？每個人醒來時應該都至少要有一件值得期待、嚮往、跳下床去執行的事情吧？
 好希望能夠找回之前那種充滿熱忱、幹勁滿滿地把一件事情做到最好的感覺阿。
-所以嘗試去紀錄重要的當下&amp;hellip; 為了抓回一點時間感，還是來紀錄一下生活中的趣事好了，以後再來回味的時候就比較不會有虛度光陰的感覺了&amp;hellip;吧。
+所以嘗試去紀錄重要的當下&amp;hellip;    為了抓回一點時間感，還是來紀錄一下生活中的趣事好了，以後再來回味的時候就比較不會有虛度光陰的感覺了&amp;hellip;吧。
 然後不要像我假日直接睡12小時，高速虛度光陰。
 但是日記什麼的實在太勤勉了，每天都要找東西寫下來。就算是很無聊的一天也要硬寫，實在太累太麻煩了不太適合我。
 果然還是來寫一下Blog好了。
 把好玩的、重要的事件按照當下的心情紀錄下來。
-那麼該寫些什麼東東好呢 目前想到的可能會紀錄的東西有：
+那麼該寫些什麼東東好呢    目前想到的可能會紀錄的東西有：
  各式突發奇想 (有機會是廢文) Code心得 (專業IT廢文) 美食番 (好吃的廢文？) 廢文  不過最重要的果然還是要有Fu，等到心情正確再執筆就好了。
-配置 如果單純寫Blog的話門檻蠻低的，找個Static Site Generator再套個Theme基本上就能看了。
+配置    如果單純寫Blog的話門檻蠻低的，找個Static Site Generator再套個Theme基本上就能看了。
  CMS: Hugo Hosting: Github Pages  等到文件量太多了再租個domain搬出去八。
 老實說我也不知道自己想做什麼、在做什麼，反正就開始寫Blog了。
-在這疫代疫代的時代 恩，最近還挺亂的。缺水缺電缺疫苗，被三級警戒封印在家的各位如果想出門一定要帶口罩喔，口罩要蓋過鼻子喔。
+在這疫代疫代的時代    恩，最近還挺亂的。缺水缺電缺疫苗，被三級警戒封印在家的各位如果想出門一定要帶口罩喔，口罩要蓋過鼻子喔。
  Stay Safe, Stay Negative.   </description>
     </item>
     
