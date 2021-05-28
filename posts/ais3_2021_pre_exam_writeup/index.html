@@ -416,7 +416,7 @@
     <span style="color:#a6e22e">update</span>(<span style="color:#ae81ff">_0</span><span style="color:#a6e22e">x1e21d9</span>[<span style="color:#e6db74">&#39;textContent&#39;</span>]);
 }
 </code></pre></div><p>基本上就是從EventListener抓你輸入的十個key</p>
-<p>可以看出secret code是 <strong>↑↑↓↓←←→→ba</strong></p>
+<p>可以看出secret code是 <strong>↑↑↓↓←→←→ba</strong></p>
 <p>輸入secret code後還不放過你：</p>
 <figure><img src="/img/ais3_2021/pre_exam/colors02.png"/>
 </figure>
@@ -915,7 +915,7 @@ user <span style="color:#f92672">=</span> json<span style="color:#f92672">.</spa
 </code></pre></div><p><code>close(1)</code>之後再把Flag 印到 stdout，當然看不到。</p>
 <p>上網爬了一堆文之後找到<a href="https://stackoverflow.com/questions/9084099/re-opening-stdout-and-stdin-file-descriptors-after-closing-them/9084222">這篇</a></p>
 <p>發現File Descriptor居然可以透過特定的syscall複製一份?</p>
-<p>用<code>make_a_syscall(33, 2, 1, 0)</code>讓Flag從stderr跑出來：</p>
+<p>用<code>syscall(33, 2, 1, 0)</code>讓Flag從stderr跑出來：</p>
 <p><code>AIS3{dupppppqqqqqub}</code></p>
 <p>又學到了一個這輩子大概不會再用到的syscall</p>
 <hr>
