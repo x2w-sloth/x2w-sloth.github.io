@@ -1,29 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Tags on SLOTH</title>
-    <link>/tags/</link>
-    <description>Recent content in Tags on SLOTH</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>zh-tw</language>
-    <lastBuildDate>Tue, 25 May 2021 17:23:15 +0800</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>AIS3</title>
-      <link>/tags/ais3/</link>
-      <pubDate>Tue, 25 May 2021 17:23:15 +0800</pubDate>
-      
-      <guid>/tags/ais3/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>CTF</title>
-      <link>/tags/ctf/</link>
-      <pubDate>Tue, 25 May 2021 17:23:15 +0800</pubDate>
-      
-      <guid>/tags/ctf/</guid>
-      <description></description>
-    </item>
-    
+    <title>Tags on Sloth-Blog</title>
+    <link>https://x2w-sloth.github.io/tags/</link>
+    <description>Recent content in Tags on Sloth-Blog</description>
+    <generator>Hugo -- gohugo.io</generator><atom:link href="https://x2w-sloth.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

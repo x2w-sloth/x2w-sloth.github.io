@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Sloth-Blog</title>
+    <link>https://x2w-sloth.github.io/zh/</link>
+    <description>Recent content on Sloth-Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Tue, 25 May 2021 17:23:15 +0800</lastBuildDate><atom:link href="https://x2w-sloth.github.io/zh/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AIS3 2021 Pre-Exam Writeup</title>
+      <link>https://x2w-sloth.github.io/zh/posts/ais3_2021_pre_exam_writeup/</link>
+      <pubDate>Tue, 25 May 2021 17:23:15 +0800</pubDate>
+      
+      <guid>https://x2w-sloth.github.io/zh/posts/ais3_2021_pre_exam_writeup/</guid>
+      <description>雖然只有解出每個領域的簡單題目
+還是厚著臉皮寫一下Writeup好了
+反正抽查也被抽中了Q_Q
+ REVERSE Piano 題目是一個.NET的exe檔。
+有12個鍵給你按、讓你彈鋼琴。
+  只要是.NET一律丟進dnSpy反編譯。
+先來看他的click handler，基本上就是讓你按下去時會放那個音階的.wav檔
+但是輸入第14個音後有點有趣，會跑一個isValid()
+如果過了isValid()就會跳出一個視窗，內容是nya()
+可以聯想到可能要按下14個特定的音
+// piano.Piano // Token: 0x06000002 RID: 2 RVA: 0x00002190 File Offset: 0x00000390 private void onClickHandler(object sender, EventArgs e) { Button button = (Button)sender; this.notes.Add(this.buttons.IndexOf(button)); this.audio.SoundLocation = Path.Combine(this.rootLocation, &amp;#34;..\\Resources\\&amp;#34; + button.Name + &amp;#34;.wav&amp;#34;); this.audio.Play(); if (this.notes.Count == 14) { if (this.isValid()) { MessageBox.Show(this.nya()); } this.notes.RemoveAt(0); } } 先來看nya()
+內容多半就是Flag了
+回傳值是list裡面的每個int和我們按下的notes一直XOR到底
+// piano.Piano // Token: 0x06000004 RID: 4 RVA: 0x0000236C File Offset: 0x0000056C private string nya() { List&amp;lt;int&amp;gt; list = new List&amp;lt;int&amp;gt; { 70, 78, 89, 57, 112, 60, 125, 96, 103, 104, 50, 109, 87, 115, 112, 54, 100, 97, 103, 56, 85, 101, 56, 119, 119, 100, 59, 88, 50, 48, 62, 120, 84, 58, 100, 86, 74, 92, 54, 96, 60, 117, 119, 122 }; List&amp;lt;char&amp;gt; list2 = new List&amp;lt;char&amp;gt;(); for (int i = 0; i &amp;lt; list.</description>
+    </item>
+    
+    <item>
+      <title>反正就開始寫Blog了</title>
+      <link>https://x2w-sloth.github.io/zh/posts/hello_world/</link>
+      <pubDate>Thu, 20 May 2021 09:32:56 +0800</pubDate>
+      
+      <guid>https://x2w-sloth.github.io/zh/posts/hello_world/</guid>
+      <description>渾渾噩噩、度年如日 每天光是起床都覺得好累，莫名其妙活了十九年卻一年比一年不知道自己再幹麻，但是睡太多又會有罪惡感，不知道從什麼時候開始已經抓不到時間流逝的感覺了。
+如果一個學期或一個學年感覺過得那麼快卻沒有鮮明的回憶的話，應該是我的生活方式出了什麼問題吧？每個人醒來時應該都至少要有一件值得期待、嚮往、跳下床去執行的事情吧？
+好希望能夠找回之前那種充滿熱忱、幹勁滿滿地把一件事情做到最好的感覺阿。
+所以嘗試去紀錄重要的當下&amp;hellip; 為了抓回一點時間感，還是來紀錄一下生活中的趣事好了，以後再來回味的時候就比較不會有虛度光陰的感覺了&amp;hellip;吧。
+然後不要像我假日直接睡12小時，高速虛度光陰。
+但是日記什麼的實在太勤勉了，每天都要找東西寫下來。就算是很無聊的一天也要硬寫，實在太累太麻煩了不太適合我。
+果然還是來寫一下Blog好了。
+把好玩的、重要的事件按照當下的心情紀錄下來。
+那麼該寫些什麼東東好呢 目前想到的可能會紀錄的東西有：
+ 各式突發奇想 (有機會是廢文) Code心得 (專業IT廢文) 美食番 (好吃的廢文？) 廢文  不過最重要的果然還是要有Fu，等到心情正確再執筆就好了。
+配置 如果單純寫Blog的話門檻蠻低的，找個Static Site Generator再套個Theme基本上就能看了。
+ CMS: Hugo Hosting: Github Pages  等到文件量太多了再租個domain搬出去八。
+老實說我也不知道自己想做什麼、在做什麼，反正就開始寫Blog了。
+在這疫代疫代的時代 恩，最近還挺亂的。缺水缺電缺疫苗，被三級警戒封印在家的各位如果想出門一定要帶口罩喔，口罩要蓋過鼻子喔。
+  Stay Safe, Stay Negative.   </description>
+    </item>
+    
+    
+    
+  </channel>
+</rss>
