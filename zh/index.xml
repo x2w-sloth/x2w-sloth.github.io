@@ -63,7 +63,8 @@ N2的單字書我才啃到一半而已。
       <description>雖然只有解出每個領域的簡單題目
 還是厚著臉皮寫一下Writeup好了
 反正抽查也被抽中了Q_Q
- REVERSE Piano 題目是一個.NET的exe檔。
+ 2021-06-23 更新： 官方Writeup在這裡
+  REVERSE Piano 題目是一個.NET的exe檔。
 有12個鍵給你按、讓你彈鋼琴。
   只要是.NET一律丟進dnSpy反編譯。
 先來看他的click handler，基本上就是讓你按下去時會放那個音階的.wav檔
@@ -72,8 +73,7 @@ N2的單字書我才啃到一半而已。
 可以聯想到可能要按下14個特定的音
 // piano.Piano // Token: 0x06000002 RID: 2 RVA: 0x00002190 File Offset: 0x00000390 private void onClickHandler(object sender, EventArgs e) { Button button = (Button)sender; this.notes.Add(this.buttons.IndexOf(button)); this.audio.SoundLocation = Path.Combine(this.rootLocation, &amp;#34;..\\Resources\\&amp;#34; + button.Name + &amp;#34;.wav&amp;#34;); this.audio.Play(); if (this.notes.Count == 14) { if (this.isValid()) { MessageBox.Show(this.nya()); } this.notes.RemoveAt(0); } } 先來看nya()
 內容多半就是Flag了
-回傳值是list裡面的每個int和我們按下的notes一直XOR到底
-// piano.Piano // Token: 0x06000004 RID: 4 RVA: 0x0000236C File Offset: 0x0000056C private string nya() { List&amp;lt;int&amp;gt; list = new List&amp;lt;int&amp;gt; { 70, 78, 89, 57, 112, 60, 125, 96, 103, 104, 50, 109, 87, 115, 112, 54, 100, 97, 103, 56, 85, 101, 56, 119, 119, 100, 59, 88, 50, 48, 62, 120, 84, 58, 100, 86, 74, 92, 54, 96, 60, 117, 119, 122 }; List&amp;lt;char&amp;gt; list2 = new List&amp;lt;char&amp;gt;(); for (int i = 0; i &amp;lt; list.</description>
+回傳值是list裡面的每個int和我們按下的notes一直XOR到底</description>
     </item>
     
     <item>
