@@ -2,6 +2,51 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://x2w-sloth.github.io/tags/linux/</loc>
+    <lastmod>2021-11-23T21:12:19+08:00</lastmod>
+  </url><url>
+    <loc>https://x2w-sloth.github.io/posts/</loc>
+    <lastmod>2021-11-23T21:12:19+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
+                href="https://x2w-sloth.github.io/zh/posts/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://x2w-sloth.github.io/posts/"
+                />
+  </url><url>
+    <loc>https://x2w-sloth.github.io/posts/sharing/</loc>
+    <lastmod>2021-11-23T21:12:19+08:00</lastmod>
+  </url><url>
+    <loc>https://x2w-sloth.github.io/</loc>
+    <lastmod>2021-11-23T21:12:19+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
+                href="https://x2w-sloth.github.io/zh/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://x2w-sloth.github.io/"
+                />
+  </url><url>
+    <loc>https://x2w-sloth.github.io/tags/</loc>
+    <lastmod>2021-11-23T21:12:19+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
+                href="https://x2w-sloth.github.io/zh/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://x2w-sloth.github.io/tags/"
+                />
+  </url><url>
     <loc>https://x2w-sloth.github.io/archives/</loc>
     <xhtml:link
                 rel="alternate"
@@ -36,30 +81,6 @@
                 rel="alternate"
                 hreflang="en"
                 href="https://x2w-sloth.github.io/search/"
-                />
-  </url><url>
-    <loc>https://x2w-sloth.github.io/</loc>
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh"
-                href="https://x2w-sloth.github.io/zh/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://x2w-sloth.github.io/"
-                />
-  </url><url>
-    <loc>https://x2w-sloth.github.io/tags/</loc>
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh"
-                href="https://x2w-sloth.github.io/zh/tags/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://x2w-sloth.github.io/tags/"
                 />
   </url>
 </urlset>

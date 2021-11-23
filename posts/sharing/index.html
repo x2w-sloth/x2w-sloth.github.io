@@ -1,0 +1,129 @@
+<!doctype html><html lang=en dir=auto>
+<head><meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge">
+<meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no">
+<meta name=robots content="index, follow">
+<title>Sharing a Hard Drive Between Windows and Linux | Sloth-Blog</title>
+<meta name=keywords content="Linux">
+<meta name=description content="Motives I have been dual booting Arch Linux and Windows 10 for some time now. There are a lot of files that I want to be able to access and modify on both operating systems, from source code to music files.
+After digging for solutions, the most reliable way I&rsquo;ve come across is to configure a hard drive to be shared among the two systems. Since Windows is terrible at reading or modifying EXT4 (file system commonly adopted by Linux), we will keep the target hard drive in NTFS (proprietary file system developed by Microsoft) and mount the hard drive from Linux after each startup.">
+<meta name=author content>
+<link rel=canonical href=https://x2w-sloth.github.io/posts/sharing/>
+<link crossorigin=anonymous href=/assets/css/stylesheet.min.2d6dbfc6e0f8a1db1c9d082a76dc11d094328cf63f247bbc2421dfaa7f2bb170.css integrity="sha256-LW2/xuD4odscnQgqdtwR0JQyjPY/JHu8JCHfqn8rsXA=" rel="preload stylesheet" as=style>
+<script defer crossorigin=anonymous src=/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5+kdJvBz5iKbt6B5PJI=" onload=hljs.initHighlightingOnLoad()></script>
+<link rel=icon href=https://x2w-sloth.github.io/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=https://x2w-sloth.github.io/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=https://x2w-sloth.github.io/favicon-32x32.png>
+<link rel=apple-touch-icon href=https://x2w-sloth.github.io/apple-touch-icon.png>
+<link rel=mask-icon href=https://x2w-sloth.github.io/safari-pinned-tab.svg>
+<meta name=theme-color content="#2e2e33">
+<meta name=msapplication-TileColor content="#2e2e33">
+<meta name=generator content="Hugo 0.89.4">
+<link rel=alternate hreflang=en href=https://x2w-sloth.github.io/posts/sharing/>
+<script type=application/javascript>var doNotTrack=!1;doNotTrack||(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)}(window,document,'script','https://www.google-analytics.com/analytics.js','ga'),ga('create','UA-197567679-1','auto'),ga('send','pageview'))</script><meta property="og:title" content="Sharing a Hard Drive Between Windows and Linux">
+<meta property="og:description" content="Motives I have been dual booting Arch Linux and Windows 10 for some time now. There are a lot of files that I want to be able to access and modify on both operating systems, from source code to music files.
+After digging for solutions, the most reliable way I&rsquo;ve come across is to configure a hard drive to be shared among the two systems. Since Windows is terrible at reading or modifying EXT4 (file system commonly adopted by Linux), we will keep the target hard drive in NTFS (proprietary file system developed by Microsoft) and mount the hard drive from Linux after each startup.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://x2w-sloth.github.io/posts/sharing/"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2021-11-23T21:12:19+08:00">
+<meta property="article:modified_time" content="2021-11-23T21:12:19+08:00"><meta property="og:site_name" content="Sloth-Blog">
+<meta name=twitter:card content="summary">
+<meta name=twitter:title content="Sharing a Hard Drive Between Windows and Linux">
+<meta name=twitter:description content="Motives I have been dual booting Arch Linux and Windows 10 for some time now. There are a lot of files that I want to be able to access and modify on both operating systems, from source code to music files.
+After digging for solutions, the most reliable way I&rsquo;ve come across is to configure a hard drive to be shared among the two systems. Since Windows is terrible at reading or modifying EXT4 (file system commonly adopted by Linux), we will keep the target hard drive in NTFS (proprietary file system developed by Microsoft) and mount the hard drive from Linux after each startup.">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://x2w-sloth.github.io/posts/"},{"@type":"ListItem","position":2,"name":"Sharing a Hard Drive Between Windows and Linux","item":"https://x2w-sloth.github.io/posts/sharing/"}]}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Sharing a Hard Drive Between Windows and Linux","name":"Sharing a Hard Drive Between Windows and Linux","description":"Motives I have been dual booting Arch Linux and Windows 10 for some time now. There are a lot of files that I want to be able to access and modify on both operating systems, from source code to music files.\nAfter digging for solutions, the most reliable way I\u0026rsquo;ve come across is to configure a hard drive to be shared among the two systems. Since Windows is terrible at reading or modifying EXT4 (file system commonly adopted by Linux), we will keep the target hard drive in NTFS (proprietary file system developed by Microsoft) and mount the hard drive from Linux after each startup.","keywords":["Linux"],"articleBody":"Motives I have been dual booting Arch Linux and Windows 10 for some time now. There are a lot of files that I want to be able to access and modify on both operating systems, from source code to music files.\nAfter digging for solutions, the most reliable way I’ve come across is to configure a hard drive to be shared among the two systems. Since Windows is terrible at reading or modifying EXT4 (file system commonly adopted by Linux), we will keep the target hard drive in NTFS (proprietary file system developed by Microsoft) and mount the hard drive from Linux after each startup.\nThis method should work on most Linux distributions.\nMounting a Hard Drive From Linux After booting, Linux mounts hard drives according to entries in /etc/fstab.\nFor reference, this is what mine looks like:\n# Static information about the filesystems. # See fstab(5) for details. #      # /dev/nvme0n1p4 Linux Root UUID=34346c16-eff9-42ad-9e48-9bde9ff6e6f3 / ext4 rw,relatime 0 1 # /dev/nvme0n1p2 Linux Swap UUID=5ec73324-c806-4bff-bd52-068eee1d38cc none swap defaults 0 0 Each entry consists of 6 whitespace-separated fields, you can learn more about the entry layouts in man 5 fstab. What we want to do here is to add an additional entry to mount the NTFS drive at boot.\nAfter some googling this is what I came up with:\n# /dev/nvme0n1p1 Share Partition UUID=BCE9B718A8B7FE29 /home/x2w/Share ntfs-3g defaults,nls=utf8,umask=077,uid=1000,gid=1000,windows_names 0 0 Obviously your hardware ID would be different from mine, find out the UUID of your hard drives with sudo blkid. My share dirve will be mounted at $HOME/Share. I’ve also renamed the drive to “Share” on Windows.\nIn the options we set gid and uid to the default user, you can determine yours with id -u and id -g, respectively. umask is in fact the complement of the permissions you want, 077 sets rwx permissions for the owner and zero permission for others.\nSince /etc/fstab is maintained by system admins, modifying it requires root privileges.\nAfter rebooting you should have your NTFS drive successfully mounted on Linux, create and edit some files in Linux, the changes should reflect in your next Windows session and vice versa.\n","wordCount":"361","inLanguage":"en","datePublished":"2021-11-23T21:12:19+08:00","dateModified":"2021-11-23T21:12:19+08:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://x2w-sloth.github.io/posts/sharing/"},"publisher":{"@type":"Organization","name":"Sloth-Blog","logo":{"@type":"ImageObject","url":"https://x2w-sloth.github.io/favicon.ico"}}}</script>
+</head>
+<body id=top>
+<script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add('dark'):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove('dark'):window.matchMedia('(prefers-color-scheme: dark)').matches&&document.body.classList.add('dark')</script>
+<noscript>
+<style type=text/css>#theme-toggle,.top-link{display:none}</style>
+<style>@media(prefers-color-scheme:dark){:root{--theme:#1d1e20;--entry:#2e2e33;--primary:rgba(255, 255, 255, 0.84);--secondary:rgba(255, 255, 255, 0.56);--tertiary:rgba(255, 255, 255, 0.16);--content:rgba(255, 255, 255, 0.74);--hljs-bg:#2e2e33;--code-bg:#37383e;--border:#333}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style>
+</noscript>
+<header class=header>
+<nav class=nav>
+<div class=logo>
+<a href=https://x2w-sloth.github.io/ accesskey=h title="Home (Alt + H)">Home</a>
+<span class=logo-switches>
+<button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+</button>
+<ul class=lang-switch><li>|</li>
+<li>
+<a href=https://x2w-sloth.github.io/zh/ title=zh aria-label=zh>Zh</a>
+</li>
+</ul>
+</span>
+</div>
+<ul id=menu>
+<li>
+<a href=https://x2w-sloth.github.io/archives/ title=Archive>
+<span>Archive</span>
+</a>
+</li>
+<li>
+<a href=https://x2w-sloth.github.io/tags/ title=Tags>
+<span>Tags</span>
+</a>
+</li>
+</ul>
+</nav>
+</header>
+<main class=main>
+<article class=post-single>
+<header class=post-header>
+<div class=breadcrumbs><a href=https://x2w-sloth.github.io/>Home</a>&nbsp;»&nbsp;<a href=https://x2w-sloth.github.io/posts/>Posts</a></div>
+<h1 class=post-title>
+Sharing a Hard Drive Between Windows and Linux
+</h1>
+<div class=post-meta>November 23, 2021&nbsp;·&nbsp;2 min
+</div>
+</header>
+<div class=post-content><h1 id=motives>Motives<a hidden class=anchor aria-hidden=true href=#motives>#</a></h1>
+<p>I have been dual booting Arch Linux and Windows 10 for some time now. There are a lot of files that I want to be able to access and modify on both operating systems, from source code to music files.</p>
+<p>After digging for solutions, the most reliable way I&rsquo;ve come across is to configure a hard drive to be shared among the two systems. Since Windows is terrible at reading or modifying EXT4 (file system commonly adopted by Linux), we will keep the target hard drive in NTFS (proprietary file system developed by Microsoft) and mount the hard drive from Linux after each startup.</p>
+<p>This method should work on most Linux distributions.</p>
+<h1 id=mounting-a-hard-drive-from-linux>Mounting a Hard Drive From Linux<a hidden class=anchor aria-hidden=true href=#mounting-a-hard-drive-from-linux>#</a></h1>
+<p>After booting, Linux mounts hard drives according to entries in <code>/etc/fstab</code>.</p>
+<p>For reference, this is what mine looks like:</p>
+<pre tabindex=0><code># Static information about the filesystems.
+# See fstab(5) for details.
+
+# &lt;file system&gt; &lt;dir&gt; &lt;type&gt; &lt;options&gt; &lt;dump&gt; &lt;pass&gt;
+# /dev/nvme0n1p4 Linux Root
+UUID=34346c16-eff9-42ad-9e48-9bde9ff6e6f3  /   ext4    rw,relatime 0 1
+
+# /dev/nvme0n1p2 Linux Swap
+UUID=5ec73324-c806-4bff-bd52-068eee1d38cc none  swap  defaults  0 0
+</code></pre><p>Each entry consists of 6 whitespace-separated fields, you can learn more about the entry layouts in <code>man 5 fstab</code>. What we want to do here is to add an additional entry to mount the NTFS drive at boot.</p>
+<p>After some googling this is what I came up with:</p>
+<pre tabindex=0><code># /dev/nvme0n1p1 Share Partition
+UUID=BCE9B718A8B7FE29 /home/x2w/Share ntfs-3g defaults,nls=utf8,umask=077,uid=1000,gid=1000,windows_names 0 0
+</code></pre><p>Obviously your hardware ID would be different from mine, find out the UUID of your hard drives with <code>sudo blkid</code>. My share dirve will be mounted at <code>$HOME/Share</code>. I&rsquo;ve also renamed the drive to &ldquo;Share&rdquo; on Windows.</p>
+<p>In the options we set <code>gid</code> and <code>uid</code> to the default user, you can determine yours with <code>id -u</code> and <code>id -g</code>, respectively. <code>umask</code> is in fact the complement of the permissions you want, 077 sets rwx permissions for the owner and zero permission for others.</p>
+<p>Since <code>/etc/fstab</code> is maintained by system admins, modifying it requires root privileges.</p>
+<p>After rebooting you should have your NTFS drive successfully mounted on Linux, create and edit some files in Linux, the changes should reflect in your next Windows session and vice versa.</p>
+</div>
+<footer class=post-footer>
+<ul class=post-tags>
+<li><a href=https://x2w-sloth.github.io/tags/linux/>Linux</a></li>
+</ul>
+</footer>
+</article>
+</main>
+<footer class=footer>
+<span>&copy; 2021 <a href=https://x2w-sloth.github.io/>Sloth-Blog</a></span>
+<span>
+Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+        <a href=https://git.io/hugopapermod rel=noopener target=_blank>PaperMod</a>
+</span>
+</footer>
+<a href=#top aria-label="go to top" title="Go to Top (Alt + G)">
+<button class=top-link id=top-link type=button accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>
+</button>
+</a>
+<script>let menu=document.getElementById('menu');menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)},document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener("click",function(b){b.preventDefault();var a=this.getAttribute("href").substr(1);window.matchMedia('(prefers-reduced-motion: reduce)').matches?document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView({behavior:"smooth"}),a==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${a}`)})})</script>
+<script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script>
+<script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove('dark'),localStorage.setItem("pref-theme",'light')):(document.body.classList.add('dark'),localStorage.setItem("pref-theme",'dark'))})</script>
+</body>
+</html>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Sloth-Blog</title>
-    <link>https://x2w-sloth.github.io/</link>
-    <description>Recent content on Sloth-Blog</description>
+    <title>Linux on Sloth-Blog</title>
+    <link>https://x2w-sloth.github.io/tags/linux/</link>
+    <description>Recent content in Linux on Sloth-Blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Tue, 23 Nov 2021 21:12:19 +0800</lastBuildDate><atom:link href="https://x2w-sloth.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 23 Nov 2021 21:12:19 +0800</lastBuildDate><atom:link href="https://x2w-sloth.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Sharing a Hard Drive Between Windows and Linux</title>
       <link>https://x2w-sloth.github.io/posts/sharing/</link>
@@ -15,8 +15,6 @@
       <description>Motives I have been dual booting Arch Linux and Windows 10 for some time now. There are a lot of files that I want to be able to access and modify on both operating systems, from source code to music files.
 After digging for solutions, the most reliable way I&amp;rsquo;ve come across is to configure a hard drive to be shared among the two systems. Since Windows is terrible at reading or modifying EXT4 (file system commonly adopted by Linux), we will keep the target hard drive in NTFS (proprietary file system developed by Microsoft) and mount the hard drive from Linux after each startup.</description>
     </item>
-    
-    
     
   </channel>
 </rss>

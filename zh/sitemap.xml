@@ -10,6 +10,16 @@
   </url><url>
     <loc>https://x2w-sloth.github.io/zh/posts/</loc>
     <lastmod>2021-08-04T16:26:06+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://x2w-sloth.github.io/posts/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh"
+                href="https://x2w-sloth.github.io/zh/posts/"
+                />
   </url><url>
     <loc>https://x2w-sloth.github.io/zh/</loc>
     <lastmod>2021-08-04T16:26:06+08:00</lastmod>
